@@ -48,8 +48,12 @@
     <Analyzer Include="D:\Program Files\Unity\Hub\Editor\6000.1.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Manager\SeeManager.cs" />
     <Compile Include="Assets\Scripts\UI\BtnPlay.cs" />
+    <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\GenericFunction\Tweening.cs" />
+    <Compile Include="Assets\Scripts\Manager\Ship\ShipController.cs" />
+    <Compile Include="Assets\Scripts\Manager\GameInfo.cs" />
     <Compile Include="Assets\Scripts\UI\FadingTransitionMenu.cs" />
   </ItemGroup>
   <ItemGroup>

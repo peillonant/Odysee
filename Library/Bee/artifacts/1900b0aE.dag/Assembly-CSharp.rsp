@@ -424,6 +424,10 @@
 -analyzer:"D:/Program Files/Unity/Hub/Editor/6000.1.0f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 -analyzer:"D:/Program Files/Unity/Hub/Editor/6000.1.0f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
 "Assets/Scripts/GenericFunction/Tweening.cs"
+"Assets/Scripts/Manager/GameInfo.cs"
+"Assets/Scripts/Manager/GameManager.cs"
+"Assets/Scripts/Manager/SeeManager.cs"
+"Assets/Scripts/Manager/Ship/ShipController.cs"
 "Assets/Scripts/UI/BtnPlay.cs"
 "Assets/Scripts/UI/FadingTransitionMenu.cs"
 -langversion:9.0
