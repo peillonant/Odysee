@@ -7,4 +7,13 @@ public class GameManager : MonoBehaviour
     {
         GameInfo.SetCurrentRegion(TypeRegion.EGEE);   
     }
+
+    void FixedUpdate()
+    {
+        if (GameInfo.GetCurrentHealth() <= 0)
+        {
+            Debug.Log("Game loose");
+            Debug.Break();
+        }   
+    }
 }

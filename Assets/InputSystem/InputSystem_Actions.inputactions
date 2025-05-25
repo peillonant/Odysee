@@ -6,27 +6,43 @@
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "BoatControl_Move",
                     "type": "Value",
                     "id": "351f2ccd-1f9f-44bf-9bec-d62ac5c5f408",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SailControl_Position",
+                    "type": "Value",
+                    "id": "86237df9-03ec-4973-b898-843d7cd5119a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SailControl_Click",
+                    "type": "Button",
+                    "id": "ccbc9dd1-01ae-4b7b-8a22-01c0071e962c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BoatControl_Canon",
+                    "type": "Button",
+                    "id": "4a56544c-ba56-4d5d-b8ca-da39fbab00e6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "978bfe49-cc26-4a3d-ab7b-7d7a29327403",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "WASD",
                     "id": "00ca640b-d935-4593-8157-c05846ea39b3",
@@ -34,7 +50,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -45,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -56,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -67,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -78,7 +94,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -89,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -100,7 +116,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -111,7 +127,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -122,29 +138,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "BoatControl_Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "",
-                    "id": "1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8",
-                    "path": "<XRController>/{Primary2DAxis}",
+                    "id": "b316a2a9-e13e-42a7-be09-53b325fa73f8",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "XR",
-                    "action": "Move",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SailControl_Position",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "3ea4d645-4504-4529-b061-ab81934c3752",
-                    "path": "<Joystick>/stick",
+                    "id": "4f1b6d6d-270b-4fc1-ba86-e08e209d61fd",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joystick",
-                    "action": "Move",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SailControl_Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a193c71-f764-44e4-a1ff-bae705ffb04f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BoatControl_Canon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -42,19 +42,46 @@
     <UnityVersion>6000.1.0f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\Peillon\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\Peillon\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\Program Files\Unity\Hub\Editor\6000.1.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\Program Files\Unity\Hub\Editor\6000.1.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="D:\Program Files\Unity\Hub\Editor\6000.1.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Manager\SeeManager.cs" />
-    <Compile Include="Assets\Scripts\UI\BtnPlay.cs" />
+    <Compile Include="Assets\Scripts\Manager\Boss\Scylla.cs" />
+    <Compile Include="Assets\Scripts\Manager\Boss\BossParent.cs" />
+    <Compile Include="Assets\Scripts\Manager\Wind\WindManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Items\Ammo.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Items\Items.cs" />
     <Compile Include="Assets\Scripts\GenericFunction\Tweening.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Obstacles\Probs\Egee_Rock.cs" />
+    <Compile Include="Assets\Scripts\GenericFunction\GeneralFunction.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Obstacles\Monsters\Jellyfish.cs" />
+    <Compile Include="Assets\Scripts\Manager\Sea\MonsterManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Wind\WindParent.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Obstacles\Monsters\Mermaid.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Items\Coin.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\BtnPlay.cs" />
+    <Compile Include="Assets\Scripts\Manager\Boss\BossManager.cs" />
     <Compile Include="Assets\Scripts\Manager\Ship\ShipController.cs" />
+    <Compile Include="Assets\Scripts\Manager\GameConstante.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Projectile\CannonBall.cs" />
+    <Compile Include="Assets\Scripts\UI\HUD\CanvasManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Items\Oboles.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\FadingTransitionMenu.cs" />
+    <Compile Include="Assets\Scripts\Manager\Ship\DistanceController.cs" />
+    <Compile Include="Assets\Scripts\Manager\Ship\InputManager_Boat.cs" />
+    <Compile Include="Assets\Scripts\Manager\Sea\SeaManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Obstacles\Probs\Egee_Log.cs" />
     <Compile Include="Assets\Scripts\Manager\GameInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\FadingTransitionMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\HUD\HUDManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Ship\ColliderController.cs" />
+    <Compile Include="Assets\Scripts\Manager\Probs\Obstacles\Obstacles.cs" />
+    <Compile Include="Assets\Scripts\Manager\Sea\ObstacleManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\Boss\Boss.cs" />
+    <Compile Include="Assets\Scripts\Manager\Ship\CannonController.cs" />
+    <Compile Include="Assets\Scripts\Manager\Sea\ItemManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
