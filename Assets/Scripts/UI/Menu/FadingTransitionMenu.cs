@@ -20,7 +20,11 @@ public class FadingTransitionMenu : MonoBehaviour
         {
             f_currentAlpha = 1;
             f_targetAlpha = 0;
-            TriggerTransition(() => Destroy(this.gameObject));
+            TriggerTransition(() =>
+            {
+                this.transform.parent.GetChild(1).gameObject.SetActive(true);
+                Destroy(this.gameObject);
+            });
         }
     }
 
@@ -37,7 +41,7 @@ public class FadingTransitionMenu : MonoBehaviour
         {
             f_currentAlpha = f_currentAlpha < f_targetAlpha ? f_currentAlpha + Time.deltaTime : f_currentAlpha - Time.deltaTime;
 
-            GetComponent<Image>().color = new Color(0,0,0,f_currentAlpha);
+            GetComponent<Image>().color = new Color(0, 0, 0, f_currentAlpha);
 
             if (f_currentAlpha > f_targetAlpha && f_currentAlpha < 0.05f)
             {
@@ -45,7 +49,7 @@ public class FadingTransitionMenu : MonoBehaviour
                 b_TransitionHasBeenTriggerd = false;
                 action.Invoke();
             }
-            else if(f_currentAlpha < f_targetAlpha && f_currentAlpha > 0.95f)
+            else if (f_currentAlpha < f_targetAlpha && f_currentAlpha > 0.95f)
             {
                 f_currentAlpha = 1;
                 b_TransitionHasBeenTriggerd = false;
