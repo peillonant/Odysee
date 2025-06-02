@@ -22,17 +22,20 @@ public class WindManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Check if the delay to change the Wind need to be changed
-        UpdateDelayToChangeWind();
+        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        {
+            // Check if the delay to change the Wind need to be changed
+            UpdateDelayToChangeWind();
 
-        // Then, with the delay computed, do we have to update the angle of the wind
-        CheckTimer();
+            // Then, with the delay computed, do we have to update the angle of the wind
+            CheckTimer();
 
-        // Change the display of the wind (rotation angle and the pennant)
-        UpdateAngleWind();
+            // Change the display of the wind (rotation angle and the pennant)
+            UpdateAngleWind();
 
-        // Add on the scene Wind effect to add more interaction
-        DisplayWindEffect();
+            // Add on the scene Wind effect to add more interaction
+            DisplayWindEffect();
+        }
     }
 
     // Method to update the delay timer to change the wind regarding the region and the speed of the ship

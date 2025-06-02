@@ -12,12 +12,12 @@ public class CannonController : MonoBehaviour
     private float f_TimerCD = 0;
     private float f_DelayBeforeShoot = 2f;
 
-    void FixedUpdate()
+    void Update()
     {
-        if (b_OnCD)
+        if (!GameInfo.IsGameOnPause() && b_OnCD)
         {
-            f_TimerCD += Time.deltaTime;
-        }   
+            f_TimerCD += Time.deltaTime; 
+        }
     }
 
     // Manage the Cannon
@@ -25,7 +25,7 @@ public class CannonController : MonoBehaviour
     {
         // First things to check is: we have at least one Ammo
         // Second things to check is the colddown of the Canon (to avoid using a machine gun)
-        if (GameInfo.GetNbAmmo() > 0 && CheckCDCannon())
+        if (GameInfo.GetNbAmmo() > 0 && CheckCDCannon() && !GameInfo.IsGameOnPause() && !GameInfo.IsGameLost())
         {
             b_OnCD = true;
             ShootCannonBall();

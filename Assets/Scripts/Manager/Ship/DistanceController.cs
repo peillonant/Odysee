@@ -6,13 +6,17 @@ public class DistanceController : MonoBehaviour
     private float f_StepDistanceToSpeed = GameConstante.I_GAPDISTANCESPEED;
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        UpdateDistanceValue();
-        IncreaseSpeedMax();
+        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        {
+            UpdateDistanceValue();
+            IncreaseSpeedMax();
+        }
     }
 
-    void UpdateDistanceValue()
+    // Method used to compute the Distance regarding the position Z of the ship
+    private void UpdateDistanceValue()
     {
         if (!GameInfo.IsBossFight())
         {

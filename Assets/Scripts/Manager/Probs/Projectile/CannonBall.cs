@@ -12,7 +12,7 @@ public class CannonBall : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         f_TimerLife += Time.deltaTime;
 

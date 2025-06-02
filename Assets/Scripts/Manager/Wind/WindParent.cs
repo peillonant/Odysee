@@ -8,7 +8,7 @@ public class WindParent : MonoBehaviour
 
     float f_GapWithShip = 25;
 
-    void FixedUpdate()
+    void Update()
     {
         FollowShip();
     }

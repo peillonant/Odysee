@@ -8,7 +8,7 @@ public class BossParent : MonoBehaviour
 
     float f_GapWithShip = 325;
 
-    void FixedUpdate()
+    void Update()
     {
         if (GameInfo.IsBossFight())
         {

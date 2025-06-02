@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 public enum TypeRegion
@@ -14,6 +15,12 @@ public enum TypeRegion
 
 public static class GameInfo
 {
+
+    #region Event & Action
+    public static Action TriggerLost;
+    public static Action TriggerOnPause;
+    #endregion
+
     #region Variable
     private static TypeRegion currentRegion;
     private static bool b_IsBossFight = false;
@@ -26,7 +33,8 @@ public static class GameInfo
     private static int i_CurrentDistance = 0;
     private static int i_CurrentAmmo = 5;
     private static int i_CurrentOboles = 0;
-
+    private static bool b_GameLost = false;
+    private static bool b_GameOnPause = false;
     #endregion
 
     #region Encapsulation
@@ -55,8 +63,16 @@ public static class GameInfo
 
     /* ------------------------------------------------ */
 
-    public static void DecreaseHealth(int i_nbDecrease) =>
+    public static void DecreaseHealth(int i_nbDecrease)
+    {
         i_CurrentHealth = (i_CurrentHealth - i_nbDecrease > 0) ? i_CurrentHealth - i_nbDecrease : 0;
+
+        if (i_CurrentHealth == 0)
+        {
+            b_GameLost = true;
+            TriggerLost.Invoke();
+        }
+    }
     public static void IncreaseHealth(int i_nbIncrease) =>
         i_CurrentHealth = (i_CurrentHealth + i_nbIncrease < i_MaxHealth) ? i_CurrentHealth + i_nbIncrease : i_MaxHealth;
     public static int GetCurrentHealth() => i_CurrentHealth;
@@ -65,6 +81,7 @@ public static class GameInfo
     /* ------------------------------------------------ */
 
     public static void IncreaseScore(int i_ValueToAdd) => i_CurrentScore += i_ValueToAdd;
+    public static void DeacreaseScore(int i_ValueToRemove) => i_CurrentScore = (i_CurrentScore - i_ValueToRemove < 0) ? 0 : i_CurrentScore - i_ValueToRemove;
     public static int GetScore() => i_CurrentScore;
 
     /* ------------------------------------------------ */
@@ -91,5 +108,24 @@ public static class GameInfo
     public static int GetCurrentOboles() => i_CurrentOboles;
 
     /* ------------------------------------------------ */
+
+    public static bool IsGameLost() => b_GameLost;
+    public static bool IsGameOnPause() => b_GameOnPause;
+
     #endregion
+    /* ------------------------------------------------ */
+    public static void ResetGame()
+    {
+        b_GameLost = false;
+        f_SpeedMax = 20;
+        f_CurrentSpeed = 10;
+        i_CurrentHealth = 3;
+        i_MaxHealth = 3;
+        i_CurrentScore = 0;
+        i_CurrentDistance = 0;
+        i_CurrentAmmo = 5;
+        i_CurrentOboles = 0;
+        b_IsBossFight = false;
+    }
+
 }

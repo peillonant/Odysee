@@ -55,7 +55,10 @@ public class Jellyfish : Obstacles
             other.GetComponent<ShipController>().HasBeenTouched_JellyFish();
 
             // Trigger the InvuFrame of the Ship
-            other.GetComponent<ColliderController>().TriggerInvuFrame();
+            //other.GetComponent<ColliderController>().TriggerInvuFrame();
+
+            // Impact the score of the player by removing 50points
+            GameInfo.DeacreaseScore(50);
 
             b_CanBeRemove = true;
         }

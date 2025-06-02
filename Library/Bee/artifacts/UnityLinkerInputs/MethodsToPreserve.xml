@@ -1,0 +1,49 @@
+<linker>
+	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="BtnExit">
+			<method name="OnClickExit"/>
+		</type>
+		<type fullname="BtnLeaderboard">
+			<method name="OnClickBack"/>
+			<method name="OnClickLeaderBoard"/>
+		</type>
+		<type fullname="BtnPlay">
+			<method name="OnClickPlay"/>
+		</type>
+		<type fullname="InputManager_Boat">
+			<method name="CanMoveSail"/>
+			<method name="OnMovement"/>
+			<method name="OnPressCanon"/>
+			<method name="OnRotateSail"/>
+		</type>
+		<type fullname="LostMenu">
+			<method name="OnBtnMenu"/>
+		</type>
+	</assembly>
+	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerButton">
+			<method name="OnAction"/>
+		</type>
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerIntField">
+			<method name="OnDecrement"/>
+			<method name="OnDecrement"/>
+			<method name="OnIncrement"/>
+			<method name="OnIncrement"/>
+		</type>
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerObjectPopupField">
+			<method name="OnDecrement"/>
+			<method name="OnIncrement"/>
+		</type>
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerPanel">
+			<method name="OnScrollbarClicked"/>
+			<method name="OnScrollbarClicked"/>
+			<method name="ResetDebugManager"/>
+		</type>
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerUIntField">
+			<method name="OnDecrement"/>
+			<method name="OnDecrement"/>
+			<method name="OnIncrement"/>
+			<method name="OnIncrement"/>
+		</type>
+	</assembly>
+</linker>

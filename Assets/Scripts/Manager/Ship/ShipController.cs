@@ -1,7 +1,4 @@
-using System;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ShipController : MonoBehaviour
 {
@@ -38,15 +35,18 @@ public class ShipController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        // PlayerMovement Method
-        UpdatePlayerMovement();
-        GoingForward();
+        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        {
+            // PlayerMovement Method
+            UpdatePlayerMovement();
+            GoingForward();
 
-        // Wind method
-        WindImpact();
-        UpdateSpeed();
+            // Wind method
+            WindImpact();
+            UpdateSpeed();
+        }
     }
 
     #region MovementSystem

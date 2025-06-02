@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class BossManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class BossManager : MonoBehaviour
     float f_CurrentTimer = 0;
     float f_DelayTimer = 2f;
     bool b_PreFightPerformed = false;
+    bool b_EndRegionFightPerformed = false;
     float f_DistancePreFight = 0;
 
     // Variable linked to Scylla (Egee boss)
@@ -23,12 +25,13 @@ public class BossManager : MonoBehaviour
     public void ResetPrefightPerformed()
     {
         b_PreFightPerformed = false;
+        b_EndRegionFightPerformed = false;
         f_DistancePreFight = 0;
     }
 
     void Update()
     {
-        if (!GameInfo.IsBossFight())
+        if (!GameInfo.IsBossFight() && !GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
         {
             if (GameInfo.GetDistance() < 800 && !b_PreFightPerformed)
             {
@@ -39,7 +42,7 @@ public class BossManager : MonoBehaviour
                         break;
                 }
             }
-            else if (GameInfo.GetDistance() - f_DistancePreFight > 150)
+            else if (GameInfo.GetDistance() > 800 && GameInfo.GetDistance() - f_DistancePreFight > 150 && !b_EndRegionFightPerformed)
             {
                 switch (GameInfo.GetCurrentRegion())
                 {
@@ -73,6 +76,7 @@ public class BossManager : MonoBehaviour
         }
     }
 
+    // Method to increase the ThresholdSpeed for Scyllas Boss regarding the distance of the ship
     private void IncreaseThresholdSpeed()
     {
         if (GameInfo.GetDistance() < 100)
@@ -86,19 +90,20 @@ public class BossManager : MonoBehaviour
         else if (GameInfo.GetDistance() < 500)
             f_SpeedThreshold = 10;
         else if (GameInfo.GetDistance() < 600)
-            f_SpeedThreshold = 12;
+            f_SpeedThreshold = 11;
         else if (GameInfo.GetDistance() < 700)
-            f_SpeedThreshold = 14;
+            f_SpeedThreshold = 12;
         else
-            f_SpeedThreshold = 16;
+            f_SpeedThreshold = 13;
 
         f_SpeedThreshold *= f_ThresholdMultiplier;
     }
     #endregion
 
+    // Method to trigger the Boss of the Region. On this method, we will know if the boss has been already created or not
     private void TriggerBoss(bool b_IsPreFight, GameObject go_BossPrefab)
     {
-        // First we check if the Scylla has been already Used
+        // First we check if the boss has been already Used
         GameObject go_Boss = GeneralFunction.RetrieveObject(go_BossNotUsed, go_BossPrefab, go_BossParent.transform);
 
         // If the retrieve did not work, we create the gameObject
@@ -107,17 +112,20 @@ public class BossManager : MonoBehaviour
             go_Boss = Instantiate(go_BossPrefab, go_BossParent.transform);
             go_Boss.name = go_BossPrefab.name;
         }
-        else
-        {
-            if (!go_Boss.GetComponent<Boss>().IsPreFight())
-                go_Boss.GetComponent<Boss>().IncreaseHealth();
-        }
 
         go_Boss.GetComponent<Boss>().SetIsPreFight(b_IsPreFight);
 
         GameInfo.SetBossFight(true);
 
-        GameObject.Find("Sea").GetComponent<SeaManager>().RemoveObstaclesAndMonsters();
+        if (b_IsPreFight)
+        {
+            GameObject.Find("Sea").GetComponent<SeaManager>().RemoveObstaclesAndMonsters();
+            b_PreFightPerformed = true;
+        }
+        else
+        {
+            b_EndRegionFightPerformed = true;
+        }
     }
     
 }

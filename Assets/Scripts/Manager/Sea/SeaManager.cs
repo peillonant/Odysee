@@ -19,9 +19,10 @@ public class SeaManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        CheckSeaToBeRemoved();
+        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+            CheckSeaToBeRemoved();
     }
 
     // Method used to check if the first sea child is still "used" by the ship of player before being removed

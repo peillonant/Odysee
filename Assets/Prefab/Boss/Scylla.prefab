@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &886190297977338486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9198114750593541149}
+  - component: {fileID: 9007723751991099057}
+  m_Layer: 0
+  m_Name: Tentacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9198114750593541149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886190297977338486}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.99935377, y: 0, z: 0, w: -0.035945866}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8869379220979725498}
+  m_LocalEulerAnglesHint: {x: -184.12, y: 0, z: 0}
+--- !u!114 &9007723751991099057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886190297977338486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0adb2e36209090941bd039fb05604170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7748605612156324532
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +60,7 @@ GameObject:
   - component: {fileID: -7689028360058912244}
   m_Layer: 0
   m_Name: Scylla
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +77,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 25, z: 0}
   m_LocalScale: {x: 100, y: 50, z: 50}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9198114750593541149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8864117049417954816
@@ -149,3 +194,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf49ddc301e3f24ba5c67a6320275b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  go_PrefabTentacle: {fileID: 2103808577042159714, guid: b1f592a9b8b10664bbe6565a988b2bf2, type: 3}

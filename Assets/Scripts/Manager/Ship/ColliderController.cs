@@ -10,10 +10,10 @@ public class ColliderController : MonoBehaviour
     float f_DelayInvu = 2;
     float colorHasBeenHit = 0.4f;
 
-    void FixedUpdate()
+    void Update()
     {
         // Update the timer of the invuFrame
-        if (b_InvuFrame)
+        if (b_InvuFrame && !GameInfo.IsGameOnPause())
         {
             f_TimerInvu += Time.deltaTime;
 
