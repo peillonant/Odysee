@@ -19,6 +19,9 @@
 		<type fullname="LostMenu">
 			<method name="OnBtnMenu"/>
 		</type>
+		<type fullname="SeaManager">
+			<method name="TriggerAddRewardAndPortalOnSea"/>
+		</type>
 	</assembly>
 	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">
 		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerButton">

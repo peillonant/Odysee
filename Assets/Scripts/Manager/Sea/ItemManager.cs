@@ -34,7 +34,7 @@ public class ItemManager : MonoBehaviour
     public void CreateItems(GameObject go_newSea)
     {
         // If it's Boss Fight, we are not able to generate Oboles
-        int i_MinValue = GameInfo.IsBossFight() ? 1 : 0;
+        int i_MinValue = GameInfo.instance.IsBossFight() ? 1 : 0;
 
         int i_IndexRngItem = Random.Range(i_MinValue, 11);
 
@@ -72,7 +72,7 @@ public class ItemManager : MonoBehaviour
         int i_NbItemZone = go_newSea.transform.GetChild(5).childCount;
 
         // Switch to know if we are spawning 1 Ammo or 2 regarding the rules above
-        switch (GameInfo.GetNbAmmo())
+        switch (GameInfo.instance.GetNbAmmo())
         {
             case >= 8:
                 b_SpawnFirstAmmo = i_IndexRngItem == 1;

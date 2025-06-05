@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 438e8c9b26650094babd172850e4e781, type: 3}
+  m_Name: Arcadia
+  m_EditorClassIdentifier: 
+  typeRegion: 2
+  seaColor: {r: 0, g: 0.88235295, b: 0.75686276, a: 1}
+  laneColor: {r: 0.09019608, g: 0.75686276, b: 0.68235296, a: 1}
+  cameraColor: {r: 0.19215687, g: 0.6627451, b: 0.5803922, a: 1}
+  obstaclesPrefab:
+  - {fileID: 870059283490619918, guid: 3e816a3f977823141b6e21aa9f36f817, type: 3}
+  - {fileID: 5895710099194522064, guid: 2482bbf59753cee48af00cd9a3498573, type: 3}
+  monsterPrefab:
+  - {fileID: 505232494197681433, guid: 22f5c58f11d50d24eb1c7ba8fde514f8, type: 3}
+  - {fileID: 8644645021223442328, guid: 39bb89ed1a526f0459e9ad261b3c574d, type: 3}
+  bossPrefab: {fileID: 7748605612156324532, guid: 6f0aa5ca6bf370f46b3529a9d82f41a1, type: 3}
+  rewardMaterial: {fileID: 2100000, guid: ce757c5f36d77fb41847631ce6c5a143, type: 2}

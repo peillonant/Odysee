@@ -57,8 +57,8 @@ public class DataLoad_InGame : MonoBehaviour
         SaveDataLastGame data = new();
 
         // Variables that need to be stored
-        data.i_Score = GameInfo.GetScore();
-        data.i_NbOboles = GameInfo.GetCurrentOboles();
+        data.i_Score = GameInfo.instance.GetScore();
+        data.i_NbOboles = GameInfo.instance.GetCurrentOboles();
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savefileLastGame.json", json);

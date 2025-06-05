@@ -1,12 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CannonController : MonoBehaviour
 {
     [SerializeField] GameObject go_CannonBallPrefab;
     [SerializeField] GameObject go_Cannon;
 
-    // Bullet force
-    private float shootForce, upwardForce;
+    public UnityEvent CannonTrigger;
 
     private bool b_OnCD;
     private float f_TimerCD = 0;
@@ -14,7 +14,7 @@ public class CannonController : MonoBehaviour
 
     void Update()
     {
-        if (!GameInfo.IsGameOnPause() && b_OnCD)
+        if (!GameInfo.instance.IsGameOnPause() && b_OnCD)
         {
             f_TimerCD += Time.deltaTime; 
         }
@@ -25,7 +25,7 @@ public class CannonController : MonoBehaviour
     {
         // First things to check is: we have at least one Ammo
         // Second things to check is the colddown of the Canon (to avoid using a machine gun)
-        if (GameInfo.GetNbAmmo() > 0 && CheckCDCannon() && !GameInfo.IsGameOnPause() && !GameInfo.IsGameLost())
+        if (GameInfo.instance.GetNbAmmo() > 0 && CheckCDCannon() && !GameInfo.instance.IsGameOnPause() && !GameInfo.instance.IsGameLost())
         {
             b_OnCD = true;
             ShootCannonBall();
@@ -57,7 +57,9 @@ public class CannonController : MonoBehaviour
         v3_CannonPosition.z += 15;
 
         Instantiate(go_CannonBallPrefab, v3_CannonPosition, Quaternion.identity, GameObject.Find("CannonBalls").transform);
-        
-        GameInfo.DescreaseAmmo();
+
+        GameInfo.instance.DescreaseAmmo();
+
+        CannonTrigger.Invoke();
     }
 }

@@ -8,12 +8,15 @@ public class SeaManager : MonoBehaviour
     private GameObject go_SeaNotUsed;
     private GameObject go_Ship;
 
+    private bool b_AddProbs = true;
+    private bool b_AddPortal = false;
+
     private int i_MinPrefabSelected = 0;
-    private int i_MaxPrefabSelected = 3;
+    private int i_MaxPrefabSelected = 3;        // To improve to start maybe with just 2 choices of seaPrefab and regarding the distance we change the difficulty by changing which prefab can be selected
 
     void Start()
     {
-        go_SeaNotUsed = GameObject.Find("NotUsed/Sea");
+        go_SeaNotUsed = GameObject.Find("NotUsed/_Sea");
         go_Ship = GameObject.Find("Ship");
     }
 
@@ -21,7 +24,7 @@ public class SeaManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
             CheckSeaToBeRemoved();
     }
 
@@ -79,7 +82,7 @@ public class SeaManager : MonoBehaviour
         // Then we update the position on the scene of the first sea to be the last one
         go_newSea.transform.position = v3_NewPositionSea;
 
-        if (!GameInfo.IsBossFight())
+        if (!GameInfo.instance.IsBossFight() && b_AddProbs)
         {
             // To finish, we call the ObstacleManager
             this.GetComponent<ObstacleManager>().CreateObstacle(go_newSea);
@@ -90,6 +93,12 @@ public class SeaManager : MonoBehaviour
 
         // We call the ItemManager to know if we add new items on it
         this.GetComponent<ItemManager>().CreateItems(go_newSea);
+
+        if (b_AddPortal && GameInfo.instance.GetDistance() > 900)
+        {
+            b_AddPortal = false;
+            this.GetComponent<PortalManager>().AddPortalOnSea(go_newSea);    
+        }  
     }
 
     // Method to Remove all Monster created before the trigger of the Boss
@@ -106,4 +115,17 @@ public class SeaManager : MonoBehaviour
             this.GetComponent<MonsterManager>().RemoveMonster(go_SeaToMove);
         }
     }
+
+    // Method to Trigger the add of the Reward and the portal on the sea
+    public void TriggerAddRewardAndPortalOnSea()
+    {
+        // Allow the creation of the portal on the next creation of the sea
+        b_AddPortal = true;
+
+        // Avoiding to generate probs and monster on the sea after the end of the EndRegion fight
+        b_AddProbs = false;
+
+        // Trigger the creation of the reward on the last sea already created
+        this.GetComponent<RewardManager>().AddRewardOnSea(transform.GetChild(2).gameObject);
+    }    
 }

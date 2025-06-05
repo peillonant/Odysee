@@ -37,7 +37,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
         {
             // PlayerMovement Method
             UpdatePlayerMovement();
@@ -53,11 +53,7 @@ public class ShipController : MonoBehaviour
     // Method linked to the Update of the Ship
     void UpdatePlayerMovement()
     {
-        // Update the target Position to create the animation of the boat floating toward the lane
-        if (GameInfo.GetCurrentRegion() == TypeRegion.OLYMPUS)
-            v3_targetPosition = new(v3_targetPosition.x, v3_targetPosition.y, this.transform.position.z);
-        else
-            v3_targetPosition = new(v3_targetPosition.x, this.transform.position.y, this.transform.position.z);
+        v3_targetPosition = new(v3_targetPosition.x, this.transform.position.y, this.transform.position.z);
 
         transform.position = Vector3.MoveTowards(transform.position, v3_targetPosition, f_currentSpeed * f_SpeedTransition);
 
@@ -86,32 +82,21 @@ public class ShipController : MonoBehaviour
     // Method to update the targetPosition for the boat
     public void UpdateTargetPosition(Vector3 v3_InputMovement)
     {
-        if (GameInfo.GetCurrentRegion() == TypeRegion.OLYMPUS)
+        if (!b_IsAttracted)
         {
-            // We have to update the position of the X and the Y
-        }
-        else if (GameInfo.GetCurrentRegion() == TypeRegion.ETNAS)
-        {
-            // We have to update the position with more than 3 lanes (probably 5)
-        }
-        else
-        {
-            if (!b_IsAttracted)
+            if (v3_InputMovement.x < 0)                                                                                 // The player wants to move the boat to the left lane
             {
-                if (v3_InputMovement.x < 0)                                                                 // The player wants to move the boat to the left lane
-                {
-                    if (v3_targetPosition.x == 0)                                                           // We are on the middle lane
-                        v3_targetPosition = new(-GameConstante.I_BORDERX, v3_targetPosition.y, v3_targetPosition.z);
-                    else if (v3_targetPosition.x == GameConstante.I_BORDERX)                                              // We are on the right lane
-                        v3_targetPosition = new(0, v3_targetPosition.y, v3_targetPosition.z);
-                }
-                else if (v3_InputMovement.x > 0)                                                            // The player wants to move the boat to the rigth lane
-                {
-                    if (v3_targetPosition.x == 0)                                                           // We are on the middle lane
-                        v3_targetPosition = new(GameConstante.I_BORDERX, v3_targetPosition.y, v3_targetPosition.z);
-                    else if (v3_targetPosition.x == -GameConstante.I_BORDERX)                                             // We are on the left lane
-                        v3_targetPosition = new(0, v3_targetPosition.y, v3_targetPosition.z);
-                }
+                if (v3_targetPosition.x == 0)                                                                           // We are on the middle lane
+                    v3_targetPosition = new(-GameConstante.I_BORDERX, v3_targetPosition.y, v3_targetPosition.z);
+                else if (v3_targetPosition.x == GameConstante.I_BORDERX)                                                // We are on the right lane
+                    v3_targetPosition = new(0, v3_targetPosition.y, v3_targetPosition.z);
+            }
+            else if (v3_InputMovement.x > 0)                                                                            // The player wants to move the boat to the rigth lane
+            {
+                if (v3_targetPosition.x == 0)                                                                           // We are on the middle lane
+                    v3_targetPosition = new(GameConstante.I_BORDERX, v3_targetPosition.y, v3_targetPosition.z);
+                else if (v3_targetPosition.x == -GameConstante.I_BORDERX)                                               // We are on the left lane
+                    v3_targetPosition = new(0, v3_targetPosition.y, v3_targetPosition.z);
             }
         }
     }
@@ -147,7 +132,7 @@ public class ShipController : MonoBehaviour
         // First we check if the sail is on the correct direction compare to the wind angle        
         float f_SailAngle = (go_Sail.transform.rotation.eulerAngles.y > 180) ? go_Sail.transform.rotation.eulerAngles.y - 360 : go_Sail.transform.rotation.eulerAngles.y;
 
-        b_SailCorrectAngle = f_SailAngle >= GameInfo.GetWindAngle() - GameConstante.I_GAPANGLE && f_SailAngle <= GameInfo.GetWindAngle() + GameConstante.I_GAPANGLE;
+        b_SailCorrectAngle = f_SailAngle >= GameInfo.instance.GetWindAngle() - GameConstante.I_GAPANGLE && f_SailAngle <= GameInfo.instance.GetWindAngle() + GameConstante.I_GAPANGLE;
 
         // Then, if the bool is true we increase the speed of the boat by one
         if (b_SailCorrectAngle)
@@ -166,8 +151,8 @@ public class ShipController : MonoBehaviour
                 f_TimerSpeedChange_OnWind = 0;
             }
 
-            if (f_targetSpeed > GameInfo.GetSpeedMax())
-                f_targetSpeed = GameInfo.GetSpeedMax();
+            if (f_targetSpeed > GameInfo.instance.GetSpeedMax())
+                f_targetSpeed = GameInfo.instance.GetSpeedMax();
         }
         else if (!b_HasBeenTouched)   // Else, we reduce the target speed by one
         {
@@ -221,7 +206,7 @@ public class ShipController : MonoBehaviour
             f_startSpeed = 0;
         }
 
-        GameInfo.SetCurrentSpeed(f_currentSpeed);
+        GameInfo.instance.SetCurrentSpeed(f_currentSpeed);
     }
     #endregion
 
@@ -242,7 +227,7 @@ public class ShipController : MonoBehaviour
     }
 
     // Method triggered by the Mermaid
-    public void TriggerAttraction(float f_PositionX)
+    public void TriggerAttraction_Mermaid(float f_PositionX)
     {
         v3_targetPosition.x = f_PositionX;
         b_IsAttracted = true;

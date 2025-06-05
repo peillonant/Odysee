@@ -13,11 +13,13 @@
 		<type fullname="ColliderController" preserve="nothing"/>
 		<type fullname="DataLoad_InGame" preserve="nothing"/>
 		<type fullname="DataLoad_Menu" preserve="nothing"/>
+		<type fullname="DisplayManager" preserve="nothing"/>
 		<type fullname="DistanceController" preserve="nothing"/>
 		<type fullname="Egee_Log" preserve="nothing"/>
 		<type fullname="Egee_Rock" preserve="nothing"/>
 		<type fullname="FadingTransitionMenu" preserve="nothing"/>
-		<type fullname="GameManager" preserve="nothing"/>
+		<type fullname="GameConstante" preserve="nothing"/>
+		<type fullname="GameInfo" preserve="nothing"/>
 		<type fullname="HUDManager" preserve="nothing"/>
 		<type fullname="InputManager_Boat" preserve="nothing"/>
 		<type fullname="ItemManager" preserve="nothing"/>
@@ -30,6 +32,11 @@
 		<type fullname="Oboles" preserve="nothing"/>
 		<type fullname="ObstacleManager" preserve="nothing"/>
 		<type fullname="PauseMenu" preserve="nothing"/>
+		<type fullname="Portal" preserve="nothing"/>
+		<type fullname="PortalManager" preserve="nothing"/>
+		<type fullname="RegionScriptableObject" preserve="nothing"/>
+		<type fullname="Reward" preserve="nothing"/>
+		<type fullname="RewardManager" preserve="nothing"/>
 		<type fullname="Scylla" preserve="nothing"/>
 		<type fullname="ScyllaTentacles" preserve="nothing"/>
 		<type fullname="SeaManager" preserve="nothing"/>
@@ -137,7 +144,6 @@
 		<type fullname="UnityEngine.Canvas" preserve="nothing"/>
 		<type fullname="UnityEngine.CanvasRenderer" preserve="nothing"/>
 		<type fullname="UnityEngine.CapsuleCollider" preserve="nothing"/>
-		<type fullname="UnityEngine.CharacterController" preserve="nothing"/>
 		<type fullname="UnityEngine.Collider" preserve="nothing"/>
 		<type fullname="UnityEngine.Component" preserve="nothing"/>
 		<type fullname="UnityEngine.ComputeShader" preserve="nothing"/>

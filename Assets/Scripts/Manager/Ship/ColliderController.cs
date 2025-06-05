@@ -13,7 +13,7 @@ public class ColliderController : MonoBehaviour
     void Update()
     {
         // Update the timer of the invuFrame
-        if (b_InvuFrame && !GameInfo.IsGameOnPause())
+        if (b_InvuFrame && !GameInfo.instance.IsGameOnPause())
         {
             f_TimerInvu += Time.deltaTime;
 
@@ -27,17 +27,14 @@ public class ColliderController : MonoBehaviour
         }
     }
 
+    // Method that the color of the ship to red and back to normal when is been hit
     void TriggerBlinkShip(float f_Timer)
     {
         float newColorMaterial;
         if (f_Timer < f_DelayInvu / 2)
-        {
             newColorMaterial = Mathf.Lerp(1, colorHasBeenHit, f_Timer / f_DelayInvu);
-        }
         else
-        {
             newColorMaterial = Mathf.Lerp(colorHasBeenHit, 1, f_Timer / f_DelayInvu);
-        }
 
         for (int i = 0; i < go_ShipImpactedByColor.Count; i++)
         {
@@ -46,12 +43,13 @@ public class ColliderController : MonoBehaviour
         }
     }
 
+    // Method called by other object when they touch the ship (Monster, Obstacles, Boss)
     public void TriggerInvuFrame()
     {
         if (!b_InvuFrame)
         {
             // Reduce the life by 1
-            GameInfo.DecreaseHealth(1);
+            GameInfo.instance.DecreaseHealth(1);
 
             // We create an invulnerability frame during X seconds
             b_InvuFrame = true;

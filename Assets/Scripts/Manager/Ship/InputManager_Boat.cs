@@ -11,15 +11,9 @@ public class InputManager_Boat : MonoBehaviour
     // Method linked to the Input System Action to move the boat on the correct lane
     public void OnMovement(InputAction.CallbackContext value)
     {
-        if (value.started && !GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (value.started && !GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
         {
-            Vector3 v3_tmpImputMovement;
-
-            if (GameInfo.GetCurrentRegion() == TypeRegion.OLYMPUS)
-                v3_tmpImputMovement = (Vector3)value.ReadValue<Vector2>();
-
-            else
-                v3_tmpImputMovement = new(value.ReadValue<Vector2>().x, 0, 0);
+            Vector3 v3_tmpImputMovement = new(value.ReadValue<Vector2>().x, 0, 0);
 
             GetComponent<ShipController>().UpdateTargetPosition(v3_tmpImputMovement);
         }
@@ -28,7 +22,7 @@ public class InputManager_Boat : MonoBehaviour
     // Method linked to the Input System Action to know when the Sail can be rotate or not
     public void CanMoveSail(InputAction.CallbackContext value)
     {
-        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
         {
             b_CanMoveSail = value.performed;
 
@@ -40,7 +34,7 @@ public class InputManager_Boat : MonoBehaviour
     // Method linked to the Input System Action to compute the rotation of the sail
     public void OnRotateSail(InputAction.CallbackContext value)
     {
-        if (b_CanMoveSail && !GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (b_CanMoveSail && !GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
         {
             if (f_MousePositionStartZ == 0)
                 f_MousePositionStartZ = value.ReadValue<Vector2>().x;
@@ -52,7 +46,7 @@ public class InputManager_Boat : MonoBehaviour
     // Method linked to the Input System Action to trigger the canon
     public void OnPressCanon(InputAction.CallbackContext value)
     {
-        if (value.started && !GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (value.started && !GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
             GetComponent<CannonController>().TriggerCanon();
     }
 }

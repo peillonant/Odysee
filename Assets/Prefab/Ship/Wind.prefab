@@ -102,6 +102,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4608102317948516156}
+  - component: {fileID: 1520664186664959432}
+  - component: {fileID: 5091663391652580539}
   m_Layer: 0
   m_Name: Wind
   m_TagString: Untagged
@@ -127,3 +129,33 @@ Transform:
   - {fileID: 4085916606102459768}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1520664186664959432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089594914724396986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5ade0d7219ba3449a208106a30ead6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go_Ship: {fileID: 0}
+--- !u!114 &5091663391652580539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089594914724396986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490a7c4c1671ea3439de00f0c80ef4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go_Pennant: {fileID: 0}
+  go_Wind: {fileID: 5089594914724396986}
+  go_WindPrefabs:
+  - {fileID: 1135913702232998963, guid: 190962feb523824449f929cb3b043788, type: 3}
+  - {fileID: 5015910318181623969, guid: 122a35f05ad87094e909c120b663432f, type: 3}

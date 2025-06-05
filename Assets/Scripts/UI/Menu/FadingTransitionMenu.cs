@@ -35,7 +35,7 @@ public class FadingTransitionMenu : MonoBehaviour
         b_TransitionHasBeenTriggerd = true;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (b_TransitionHasBeenTriggerd)
         {

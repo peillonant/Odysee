@@ -420,8 +420,3 @@
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"CopyFiles Build/UnityCrashHandler64.exe","enqueuedNodeIndex":418,"enqueueingNodeAnnotation":"Player","enqueueingNodeIndex":421}
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"CopyFiles Build/UnityPlayer.dll","enqueuedNodeIndex":419,"enqueueingNodeAnnotation":"Player","enqueueingNodeIndex":421}
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"CopyFiles Build/D3D12/D3D12Core.dll","enqueuedNodeIndex":420,"enqueueingNodeAnnotation":"Player","enqueueingNodeIndex":421}
-{"msg":"newNode","annotation":"CopyFiles Build/Odysee_Data/Plugins/x86_64/lib_burst_generated.dll","index":393}
-{"msg":"runNodeAction","annotation":"CopyFiles Build/Odysee_Data/Plugins/x86_64/lib_burst_generated.dll","displayName":"Copying lib_burst_generated.dll","index":393}
-{"msg":"noderesult","processed_node_count":419,"number_of_nodes_ever_queued":421,"annotation":"CopyFiles Build/Odysee_Data/Plugins/x86_64/lib_burst_generated.dll","index":393,"exitcode":0,"outputfile":"Build\\Odysee_Data\\Plugins\\x86_64\\lib_burst_generated.dll"}
-{"msg":"newNode","annotation":"Player","index":421}
-{"msg":"runNodeAction","annotation":"Player","index":421}

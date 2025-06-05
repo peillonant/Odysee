@@ -4,12 +4,12 @@ public class PauseMenu : MonoBehaviour
 {
     void Start()
     {
-        GameInfo.TriggerOnPause += UpdatePauseMenu;
+        GameInfo.instance.TriggerOnPause += UpdatePauseMenu;
     }
 
     private void UpdatePauseMenu()
     {
-        if (GameInfo.IsGameOnPause())
+        if (GameInfo.instance.IsGameOnPause())
         {
             
         }

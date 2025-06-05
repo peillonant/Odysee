@@ -22,7 +22,7 @@ public class WindManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
         {
             // Check if the delay to change the Wind need to be changed
             UpdateDelayToChangeWind();
@@ -41,9 +41,9 @@ public class WindManager : MonoBehaviour
     // Method to update the delay timer to change the wind regarding the region and the speed of the ship
     private void UpdateDelayToChangeWind()
     {
-        if (GameInfo.GetCurrentRegion() == TypeRegion.EGEE)
+        if (GameInfo.instance.GetCurrentRegion().typeRegion == TypeRegion.EGEE)
         {
-            float f_ShipSpeed = GameInfo.GetCurrentSpeed();
+            float f_ShipSpeed = GameInfo.instance.GetCurrentSpeed();
 
             if (f_ShipSpeed == 10)
                 f_DelayChangeWindAngle = 6;
@@ -52,9 +52,13 @@ public class WindManager : MonoBehaviour
             else if (f_ShipSpeed > 15 && f_ShipSpeed <= 20)
                 f_DelayChangeWindAngle = 4;
             else if (f_ShipSpeed > 20 && f_ShipSpeed <= 25)
-                f_DelayChangeWindAngle = 3; 
+                f_DelayChangeWindAngle = 3;
             else if (f_ShipSpeed > 25)
-                f_DelayChangeWindAngle = 2;    
+                f_DelayChangeWindAngle = 2;
+        }
+        else
+        {
+            f_DelayChangeWindAngle = 5;
         }
     }
 
@@ -106,7 +110,7 @@ public class WindManager : MonoBehaviour
             UpdatePennantRotation();
 
             // Third, we send the information to the GameInfo to give access to this information everywhere else on the code
-            GameInfo.SetWindAngle(f_CurrentWindAngle);
+            GameInfo.instance.SetWindAngle(f_CurrentWindAngle);
         }
     }
 

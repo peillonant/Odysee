@@ -9,8 +9,8 @@ public class CanvasManager : MonoBehaviour
     void Start()
     {
         // I'm using Event here to trigger the correct Display 
-        GameInfo.TriggerLost += DisplayLostMenu;
-        GameInfo.TriggerOnPause += DisplayOnPauseMenu;
+        GameInfo.instance.TriggerLost += DisplayLostMenu;
+        GameInfo.instance.TriggerOnPause += DisplayOnPauseMenu;
     }
 
     private void DisplayLostMenu()
@@ -22,8 +22,8 @@ public class CanvasManager : MonoBehaviour
 
     private void DisplayOnPauseMenu()
     {
-        go_HUD.SetActive(!GameInfo.IsGameOnPause());
-        go_MenuOnPause.SetActive(GameInfo.IsGameOnPause());
+        go_HUD.SetActive(!GameInfo.instance.IsGameOnPause());
+        go_MenuOnPause.SetActive(GameInfo.instance.IsGameOnPause());
     }
 
 }

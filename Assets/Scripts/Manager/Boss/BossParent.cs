@@ -10,7 +10,7 @@ public class BossParent : MonoBehaviour
 
     void Update()
     {
-        if (GameInfo.IsBossFight())
+        if (GameInfo.instance.IsBossFight())
         {
             FollowShip();
         }

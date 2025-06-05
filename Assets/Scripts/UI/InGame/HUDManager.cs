@@ -13,7 +13,7 @@ public class HUDManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!GameInfo.IsGameLost() && !GameInfo.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
         {
             UpdateDisplayLife();
             UpdateDisplaySpeed();
@@ -26,37 +26,37 @@ public class HUDManager : MonoBehaviour
 
     void UpdateDisplayLife()
     {
-        string s_textToDisplay = "Life: " + GameInfo.GetCurrentHealth();
+        string s_textToDisplay = "Life: " + GameInfo.instance.GetCurrentHealth();
         go_DisplayLife.GetComponent<TextMeshProUGUI>().text = s_textToDisplay;
     }
 
     void UpdateDisplaySpeed()
     {
-        string s_textToDisplay = "Speed: " + Mathf.Ceil(GameInfo.GetCurrentSpeed());
+        string s_textToDisplay = "Speed: " + Mathf.Ceil(GameInfo.instance.GetCurrentSpeed());
         go_DisplaySpeed.GetComponent<TextMeshProUGUI>().text = s_textToDisplay;
     }
 
     void UpdateDisplayScore()
     {
-        string s_textToDisplay = "Score: " + GameInfo.GetScore();
+        string s_textToDisplay = "Score: " + GameInfo.instance.GetScore();
         go_DisplayScore.GetComponent<TextMeshProUGUI>().text = s_textToDisplay;
     }
 
     void UpdateDisplayDistance()
     {
-        string s_textToDisplay = "Distance: " + GameInfo.GetDistance();
+        string s_textToDisplay = "Distance: " + GameInfo.instance.GetDistance();
         go_DisplayDistance.GetComponent<TextMeshProUGUI>().text = s_textToDisplay;
     }
 
     void UpdateDisplayMunition()
     {
-        string s_textToDisplay = "Munition: " + GameInfo.GetNbAmmo();
+        string s_textToDisplay = "Munition: " + GameInfo.instance.GetNbAmmo();
         go_DisplayMunition.GetComponent<TextMeshProUGUI>().text = s_textToDisplay;
     }
 
     void UpdateDisplayOboles()
     {
-        string s_textToDisplay = "Oboles: " + GameInfo.GetCurrentOboles();
+        string s_textToDisplay = "Oboles: " + GameInfo.instance.GetCurrentOboles();
         go_DisplayOboles.GetComponent<TextMeshProUGUI>().text = s_textToDisplay;
     }
 

@@ -17,4 +17,13 @@ public static class Tweening
             return f_Target;
         }
     }
+
+    public static Color LerpColor(Color start, Color target, float f_Timer, float f_Delay)
+    {
+        Color result = new();
+        result.r = Mathf.Lerp(start.r, target.r, f_Delay - f_Timer);
+        result.g = Mathf.Lerp(start.g, target.g, f_Delay - f_Timer);
+        result.b = Mathf.Lerp(start.b, target.b, f_Delay - f_Timer);
+        return result;
+    }
 }
