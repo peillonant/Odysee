@@ -7,12 +7,13 @@ using Random = UnityEngine.Random;
 
 public class Boss : MonoBehaviour
 {
-    protected Material objectMaterial;
+    // Varialbe linked to the Boss
     protected int i_BossHealth = 3;
     protected int i_CurrentHealth = 3;
     protected int i_NbDefeated = 0;
     protected bool b_BossDefeat = false;
     protected bool b_IsPreFight = false;
+    protected Vector3 v3_defaultLocalPosition;
     public UnityEvent bossDefeatEvent;
 
     // Variable linked to Boss that can be touched
@@ -20,25 +21,23 @@ public class Boss : MonoBehaviour
     protected bool b_HasBeenTouched = false;
     protected float f_TimerBeenTouched = 0;
     protected float f_DelayBeenTouched = 2;
-    protected float f_TimerInvu = 0;
-    protected float f_DelayInvu = 2;
+    protected Vector3 v3_PositionHit;
 
     // Variable linked to the Remove method
     protected float f_TimerToRemove = 0;
-    protected float f_DelayToRemove = 2;
+    protected float f_DelayToRemove = 1.5f;
 
     // Variable linked to the fight ability
     protected float f_TimerAttack = 0;
     protected float f_CoolDownAttack = 2;
-    protected bool b_CanAttack = true;
     protected Queue<Action> queueAttack = new();
 
-    // Encapsulation
+    // Encapsulation (Use for the UI)
     public int GetCurrentHealth() => i_CurrentHealth;
 
     void Start()
     {
-        objectMaterial = GetComponent<Renderer>().material;
+        v3_defaultLocalPosition = this.transform.localPosition;
         bossDefeatEvent.AddListener(GameObject.Find("Boss").GetComponent<BossManager>().TriggerReward);
     }
 
@@ -53,7 +52,12 @@ public class Boss : MonoBehaviour
             i_CurrentHealth = i_BossHealth;
 
         b_IsPreFight = newState;
+
+        BossPrepareToFight();
     }
+
+    // Method that will allow all boss to have their method to be prepare before the fight (change material or position)
+    protected virtual void BossPrepareToFight() { }
 
     protected virtual void Update()
     {
@@ -72,7 +76,7 @@ public class Boss : MonoBehaviour
             }
             else if (b_HasBeenTouched)
             {
-                TriggerBlinkBoss();
+                TriggerHasBeenHit();
             }
             else
             {
@@ -85,24 +89,12 @@ public class Boss : MonoBehaviour
     }
 
     // Methods linked to the defait of the boss
-    protected virtual void RemoveBoss()
-    {
-        var newAlpha = Tweening.Lerp(ref f_TimerToRemove, f_DelayToRemove, 1, 0);
-
-        objectMaterial.color = new Color(objectMaterial.color.r, objectMaterial.color.g, objectMaterial.color.b, newAlpha);
-
-        if (f_TimerToRemove > f_DelayToRemove)
-        {
-            bossDefeatEvent.Invoke();
-            ResetBoss();
-        }
-    }
-
+    protected virtual void RemoveBoss() { }
     protected virtual void ResetBoss()
     {
         gameObject.SetActive(false);
         gameObject.transform.SetParent(GameObject.Find("NotUsed/_Boss").transform);
-        objectMaterial.color = new Color(objectMaterial.color.r, objectMaterial.color.g, objectMaterial.color.b, 1);
+        this.transform.localPosition = v3_defaultLocalPosition;
         i_CurrentHealth = 1;
         b_BossDefeat = false;
 
@@ -114,8 +106,9 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // Methods linked to the Attack phase of boss
-    protected virtual void GenerationQueueAttack()      // Method that will generate all attacks of the Boss
+    #region Attack phase of boss
+    // Method that will generate all attacks of the Boss
+    protected virtual void GenerationQueueAttack()
     {
         int i_NbAttack = 2 + i_NbDefeated;
 
@@ -148,19 +141,17 @@ public class Boss : MonoBehaviour
 
     protected virtual void FirstAttack() { }
     protected virtual void SecondAttack() { }
+    #endregion
 
-    // Methods linked to the Phase where the boss can be hit
+    #region Phase Vulnerable
     protected virtual void FrameVulnerable() { }
 
-    protected virtual IEnumerator WindowVulnerable()
-    {
-        yield return new WaitForSeconds(5);
-    }
+    protected virtual void ResetFrameVulnerable() { }
 
-    // Method linked to the blink when the boss has been hit
-    protected virtual void TriggerBlinkBoss() { }
-    protected virtual void ResetColor() {}
+    protected virtual void TriggerHasBeenHit() { }
+    #endregion
 
+    #region Collider
     // Check the collision with the Ship
     public virtual void OnTriggerEnter(Collider other)
     {
@@ -177,10 +168,12 @@ public class Boss : MonoBehaviour
         {
             i_CurrentHealth--;
 
+            v3_PositionHit = this.transform.localPosition;
+
             // Need to trigger an animation of boss touched
-            ResetColor();
             b_HasBeenTouched = true;
         }
     }
+    #endregion
 
 }

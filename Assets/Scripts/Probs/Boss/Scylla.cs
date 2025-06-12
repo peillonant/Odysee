@@ -4,34 +4,51 @@ using UnityEngine;
 
 public class Scylla : Boss
 {
+    // Varialbe linked to the material of the Eyes and the color linked to the heath
+    private Material eyesMaterial;
+    private readonly Color fullHealth = new(0.6f, 1, 1);
+    private readonly Color halfHealth = new(0.6f, 1, 0);
+    private readonly Color lowHealth = new(0.6f, 0, 0);
+
     // Variable linked to the first Attack
     private int i_IndexLane_A1 = 0;
     private float f_TimerAttack_A1 = 0;
     private float f_DelayAttack_A1 = 2f;
-    private float f_ScyllaSpeed_Sideway = 50f;
-    private float f_ScyllaSpeed_Forward = 300f;
+    private readonly float f_ScyllaSpeed_Sideway = 50f;
+    private readonly float f_ScyllaSpeed_Forward = 300f;
     private bool b_AttackedPerformed_A1 = false;
     private Vector3 v3_PositionTargetLane = new();
     private Vector3 v3_PositionTargetImpacted = new();
 
     // Variable linked to the Second Attack
     [SerializeField] GameObject go_PrefabTentacle;
+    [SerializeField] GameObject go_TentaclesParent;
     private float f_TimerAttack_A2 = 0;
     private float f_DelayAttack_A2 = 2;
     private bool b_AttackedPerformed_A2 = false;
     private int i_NbTentacle = 0;
 
-
     // Variable linked to the Window where the boss can be attacked
-    private bool b_InvuCalled = false;
-    private float f_TimerInvuColor = 0;
-    private float f_DelayFirstStep = 0.5f;
-    private float f_DelaySecondStep = 2.5f;
+    private float f_TimerCanBeTouched = 0;
+    private readonly float f_DelayFirstStep = 0.5f;     // Going above the sea
+    private readonly float f_DelaySecondStep = 2.5f;    // Stay above to be hit
+    private readonly float f_DelayThirdStep = 3f;       // Going bellow the sea
+    private readonly float f_PosBottom = -15;
+    private readonly float f_PosTop = 20;
 
-    // Varialbe linked to the frame when the boss has been hit
-    private float f_ColorGNormal = 0.5f;
-    private float f_ColorGHit = 0.25f;
-    private Color DefaultColor = new Color(1, 0.5f, 0.4f);
+    // For Scylla, the color of the eye will be the indicator of the current health
+    protected override void BossPrepareToFight()
+    {
+        if (eyesMaterial == null)
+            eyesMaterial = this.transform.GetChild(0).GetComponent<MeshRenderer>().materials[2];
+
+        if (i_CurrentHealth == i_BossHealth)
+            eyesMaterial.color = fullHealth;
+        else if (i_CurrentHealth == (int)i_BossHealth - (int)Mathf.Ceil(i_BossHealth / 2))
+            eyesMaterial.color = halfHealth;
+        else if (i_CurrentHealth == (int)Mathf.Ceil(i_BossHealth / 2))
+            eyesMaterial.color = lowHealth;
+    }
 
     protected override void FirstAttack()
     {
@@ -56,8 +73,10 @@ public class Scylla : Boss
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, v3_PositionTargetLane, f_ScyllaSpeed_Sideway * Time.deltaTime);
         else
         {
+            // Now we are moving Forward (or Backward when attacked performed)
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, v3_PositionTargetImpacted, f_ScyllaSpeed_Forward * Time.deltaTime);
 
+            // Check if the position of Scylla was at the Impact area. If so, the new target is to be back to the inital place
             if (transform.localPosition.z <= v3_PositionTargetImpacted.z && !b_AttackedPerformed_A1)
             {
                 v3_PositionTargetImpacted.x = 0;
@@ -65,6 +84,7 @@ public class Scylla : Boss
                 b_AttackedPerformed_A1 = true;
             }
 
+            // After the reposition, we end the Attack and we reset all variable linked to the Attack
             if (transform.localPosition.z == 0 && b_AttackedPerformed_A1)
             {
                 i_IndexLane_A1 = 0;
@@ -77,11 +97,12 @@ public class Scylla : Boss
 
     protected override void SecondAttack()
     {
-        i_NbTentacle = transform.GetChild(0).childCount;
+        i_NbTentacle = go_TentaclesParent.transform.childCount;
 
         // We generate the number of Tentacle to instantiate
         if (i_NbTentacle == 0 && !b_AttackedPerformed_A2)
         {
+            b_AttackedPerformed_A2 = true;
             CreateTentacle();
         }
 
@@ -92,88 +113,18 @@ public class Scylla : Boss
             // Now we can send Tentacle Prefab to the ship
             if (i_NbTentacle > 0)
             {
-                if (!b_AttackedPerformed_A2) b_AttackedPerformed_A2 = true;
-                transform.GetChild(0).GetComponent<ScyllaTentacles>().UpdateTentacle();
+                go_TentaclesParent.GetComponent<ScyllaTentacles>().UpdateTentacle();
             }
             else
             {
                 f_TimerAttack_A2 = 0;
                 b_AttackedPerformed_A2 = false;
-                transform.GetChild(0).GetComponent<ScyllaTentacles>().ResetTentactle();
+                go_TentaclesParent.GetComponent<ScyllaTentacles>().ResetTentactle();
                 queueAttack.Dequeue();
             }
         }
     }
 
-    protected override void FrameVulnerable()
-    {
-        b_Canbetouched = true;
-
-        var MaterialColor = objectMaterial.color;
-
-        f_TimerInvuColor += Time.deltaTime;
-
-        // Going from Orange to Green
-        if (f_TimerInvuColor < f_DelayFirstStep)
-            MaterialColor.r = Mathf.Lerp(1, 0, f_TimerInvuColor / f_DelayFirstStep);
-        else if (f_TimerInvuColor > f_DelaySecondStep)
-            MaterialColor.r = Mathf.Lerp(0, 1, f_TimerInvuColor / f_DelaySecondStep);
-
-        objectMaterial.color = MaterialColor;
-
-        // we start a courotine, to let the player a window of few seconds to hit the boss
-        if (!b_InvuCalled)
-        {
-            b_InvuCalled = true;
-            StartCoroutine(WindowVulnerable());
-        }
-    }
-
-    protected override IEnumerator WindowVulnerable()
-    {
-        yield return new WaitForSeconds(3);
-
-        // Reset variable linked to the Vulnerable frame
-        objectMaterial.color = new(1, objectMaterial.color.g, objectMaterial.color.b);
-        b_InvuCalled = false;
-        f_TimerInvuColor = 0;
-
-        // Reset variable linked to Attack
-        b_Canbetouched = false;
-        f_TimerAttack = 0;
-        queueAttack.Dequeue();
-    }
-
-    // Method linked to the blink of the boss when hit
-    protected override void ResetColor()
-    {
-        objectMaterial.color = DefaultColor;
-    }
-
-    protected override void TriggerBlinkBoss()
-    {
-        f_TimerBeenTouched += Time.deltaTime;
-
-        var newColorMaterial = objectMaterial.color;
-        if (f_TimerBeenTouched < f_DelayInvu / 2)
-        {
-            newColorMaterial.g = Mathf.Lerp(f_ColorGNormal, f_ColorGHit, f_TimerBeenTouched / f_DelayInvu);
-        }
-        else
-        {
-            newColorMaterial.g = Mathf.Lerp(f_ColorGHit, f_ColorGNormal, f_TimerBeenTouched / f_DelayInvu);
-        }
-
-        objectMaterial.color = newColorMaterial;
-
-
-        if (f_TimerBeenTouched > f_DelayBeenTouched)
-        {
-            f_TimerBeenTouched = 0;
-            b_HasBeenTouched = false;
-        }
-    }
-    
     private void CreateTentacle()
     {
         i_NbTentacle = Random.Range(1, 2 + i_NbDefeated);
@@ -181,7 +132,7 @@ public class Scylla : Boss
 
         for (int i = 0; i < i_NbTentacle; i++)
         {
-            GameObject go_newTentacle = Instantiate(go_PrefabTentacle, this.transform.GetChild(0));
+            GameObject go_newTentacle = Instantiate(go_PrefabTentacle, this.transform.GetChild(1));
             Vector3 v3_NewPositionTentacle = go_newTentacle.transform.localPosition;
 
             if (i == 0)
@@ -192,13 +143,13 @@ public class Scylla : Boss
                 switch (i_IndexLane)
                 {
                     case 0:
-                        v3_NewPositionTentacle.x = ((float)-GameConstante.I_BORDERX) / 100;
+                        v3_NewPositionTentacle.x = ((float)-GameConstante.I_BORDERX);
                         break;
                     case 1:
                         v3_NewPositionTentacle.x = 0;
                         break;
                     case 2:
-                        v3_NewPositionTentacle.x = ((float)GameConstante.I_BORDERX) / 100;
+                        v3_NewPositionTentacle.x = ((float)GameConstante.I_BORDERX);
                         break;
                 }
             }
@@ -209,15 +160,15 @@ public class Scylla : Boss
 
                 if (i_IndexLane == 0)
                 {
-                    if (transform.GetChild(0).GetChild(0).localPosition.x == -GameConstante.I_BORDERX / 100)
-                        v3_NewPositionTentacle.x = GameConstante.I_BORDERX / 100;
+                    if (transform.GetChild(1).GetChild(0).localPosition.x == -GameConstante.I_BORDERX)
+                        v3_NewPositionTentacle.x = GameConstante.I_BORDERX;
                     else
-                        v3_NewPositionTentacle.x = -GameConstante.I_BORDERX / 100;
+                        v3_NewPositionTentacle.x = -GameConstante.I_BORDERX;
                 }
                 else if (i_IndexLane == 1)
                 {
-                    if (transform.GetChild(0).GetChild(0).localPosition.x == 0)
-                        v3_NewPositionTentacle.x = GameConstante.I_BORDERX / 100;
+                    if (transform.GetChild(1).GetChild(0).localPosition.x == 0)
+                        v3_NewPositionTentacle.x = GameConstante.I_BORDERX;
                     else
                         v3_NewPositionTentacle.x = 0;
                 }
@@ -228,26 +179,26 @@ public class Scylla : Boss
 
                 for (int j = 0; j < i; j++)
                 {
-                    Transform tentacleCreated = transform.GetChild(0).GetChild(j);
+                    Transform tentacleCreated = transform.GetChild(1).GetChild(j);
 
-                    if (tentacleCreated.localPosition.x == -GameConstante.I_BORDERX / 100)
+                    if (tentacleCreated.localPosition.x == -GameConstante.I_BORDERX)
                         i_IndexLane.Remove(0);
                     else if (tentacleCreated.localPosition.x == 0)
                         i_IndexLane.Remove(1);
-                    else if (tentacleCreated.localPosition.x == GameConstante.I_BORDERX / 100)
+                    else if (tentacleCreated.localPosition.x == GameConstante.I_BORDERX)
                         i_IndexLane.Remove(2);
                 }
 
                 switch (i_IndexLane[0])
                 {
                     case 0:
-                        v3_NewPositionTentacle.x = -GameConstante.I_BORDERX / 100;
+                        v3_NewPositionTentacle.x = -GameConstante.I_BORDERX;
                         break;
                     case 1:
                         v3_NewPositionTentacle.x = 0;
                         break;
                     case 2:
-                        v3_NewPositionTentacle.x = GameConstante.I_BORDERX / 100;
+                        v3_NewPositionTentacle.x = GameConstante.I_BORDERX;
                         break;
                 }
             }
@@ -256,5 +207,72 @@ public class Scylla : Boss
         }
     }
 
-    
+    protected override void FrameVulnerable()
+    {
+        b_Canbetouched = true;
+
+        f_TimerCanBeTouched += Time.deltaTime;
+
+        Vector3 newPosition = this.transform.localPosition;
+
+        // Moving Scylla to indicate to the player that it can be hit
+        if (f_TimerCanBeTouched < f_DelayFirstStep)                                                             // Going to the top
+            newPosition.y = Mathf.Lerp(f_PosBottom, f_PosTop, f_TimerCanBeTouched / f_DelayFirstStep);
+        else if (f_TimerCanBeTouched > f_DelaySecondStep && f_TimerCanBeTouched < f_DelayThirdStep)             // Going to the bottom
+            newPosition.y = Mathf.Lerp(f_PosTop, f_PosBottom, f_TimerCanBeTouched / f_DelayThirdStep);
+
+        this.transform.localPosition = newPosition;
+
+        if (f_TimerCanBeTouched > f_DelayThirdStep)
+        {
+            ResetFrameVulnerable();
+        }
+    }
+
+    protected override void ResetFrameVulnerable()
+    {
+        b_Canbetouched = false;
+        f_TimerAttack = 0;
+        f_TimerCanBeTouched = 0;
+        queueAttack.Dequeue();
+    }
+
+    // Method called when Scylla has been hit by the bullet
+    protected override void TriggerHasBeenHit()
+    {
+        f_TimerBeenTouched += Time.deltaTime;
+
+        // First we check if we need to change the color of the eye regarding the current life
+        if (i_CurrentHealth > (i_BossHealth / 2) && eyesMaterial.color != fullHealth)
+            eyesMaterial.color = fullHealth;
+        else if (i_CurrentHealth > (i_BossHealth / 3) && eyesMaterial.color != halfHealth)
+            eyesMaterial.color = Color.Lerp(fullHealth, halfHealth, f_TimerBeenTouched / f_DelayBeenTouched);
+        else if (i_CurrentHealth <= (i_BossHealth / 3) && eyesMaterial.color != lowHealth)
+            eyesMaterial.color = Color.Lerp(halfHealth, lowHealth, f_TimerBeenTouched / f_DelayBeenTouched);
+
+        // Second, we put back Scylla bellow to the sea
+        this.transform.localPosition = Vector3.Lerp(v3_PositionHit, v3_defaultLocalPosition, f_TimerBeenTouched / f_DelayBeenTouched);
+
+        if (f_TimerBeenTouched > f_DelayBeenTouched)
+        {
+            f_TimerBeenTouched = 0;
+            b_HasBeenTouched = false;
+            ResetFrameVulnerable();
+        }
+    }
+
+    // Methods linked to the defait of the boss
+    protected override void RemoveBoss()
+    {
+        f_TimerToRemove += Time.deltaTime;
+
+        this.transform.localPosition = Vector3.Lerp(v3_defaultLocalPosition, new Vector3(v3_defaultLocalPosition.x, -55, v3_defaultLocalPosition.z), f_TimerToRemove / f_DelayToRemove);
+
+        if (f_TimerToRemove > f_DelayToRemove)
+        {
+            f_TimerToRemove = 0;
+            bossDefeatEvent.Invoke();
+            ResetBoss();
+        }
+    }
 }

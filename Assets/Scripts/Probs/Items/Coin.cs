@@ -43,9 +43,6 @@ public class Coin : Items
             // We add the coin to the inventory of the player
             GameInfo.instance.IncreaseCoin(1);
 
-            // We add the coin point on the score
-            GameInfo.instance.IncreaseScore(1);
-
             // We inform the Oboles (Parent Object) that a coin has been collected
             transform.parent.GetComponent<Oboles>().CoinCollected();
 

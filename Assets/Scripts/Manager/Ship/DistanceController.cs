@@ -26,29 +26,31 @@ public class DistanceController : MonoBehaviour
                 GameInfo.instance.IncreaseDistance();
                 f_startDistanceComputation = this.transform.position.z;
 
-                // We also 1 to the Score everytime we move of 10 units on the Z position;
+                // We also add 1 * Multiplier to the Score everytime we move of 10 units on the Z position;
+                int multiplier = 1;
 
-                // UPDATE THE COMPUTATION OF THE SCORE
-                /*  Le multiplicateur suit une montée fluide entre 1x et 3x, selon la formule :
-                    Multiplicateur = 1 + ((vitesse - 7) / (30 - 7)) * 2
-                    ● Entre 1 et 7 m/s, le multiplicateur reste à 1x.
-                    ● Au-delà de 7 m/s, la vitesse commence à influencer directement les
-                    points gagnés.
-                    À la vitesse maximale
-                */
+                float f_thresholdMultiplier  = (( GameInfo.instance.GetSpeedMax() - GameConstante.F_MINSPEEDUNTOUCHED ) / 2) + GameConstante.F_MINSPEEDUNTOUCHED;
 
-                GameInfo.instance.IncreaseScore(1);
+                if (GameInfo.instance.GetCurrentSpeed() < f_thresholdMultiplier)
+                    multiplier = 1;
+                else if (GameInfo.instance.GetCurrentSpeed() < GameInfo.instance.GetSpeedMax())
+                    multiplier = 2;
+                else if (GameInfo.instance.GetCurrentSpeed() == GameInfo.instance.GetSpeedMax())
+                    multiplier = 3;
+
+                GameInfo.instance.IncreaseScoreDistance(multiplier);
             }
         }
     }
 
+    // Methode that increase the speedMax regarding the distance covered during the all run
     void IncreaseSpeedMax()
     {
         if (GameInfo.instance.GetSpeedMax() < 50)
         {
-            if (GameInfo.instance.GetDistance() > f_StepDistanceToSpeed)
+            if (GameInfo.instance.GetAllDistanceCovered() > f_StepDistanceToSpeed)
             {
-                int i_newSpeedMax = (int) Mathf.Ceil(GameInfo.instance.GetCurrentSpeed() * 1.1f);
+                int i_newSpeedMax = (int) Mathf.Ceil(GameInfo.instance.GetSpeedMax() * 1.1f);
                 GameInfo.instance.SetSpeedMax(i_newSpeedMax);
                 f_StepDistanceToSpeed += GameConstante.I_GAPDISTANCESPEED;
             }

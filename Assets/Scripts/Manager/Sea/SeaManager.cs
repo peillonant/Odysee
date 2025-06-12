@@ -28,6 +28,8 @@ public class SeaManager : MonoBehaviour
             CheckSeaToBeRemoved();
     }
 
+    public void CanTriggerProbs() => b_AddProbs = true;
+
     // Method used to check if the first sea child is still "used" by the ship of player before being removed
     private void CheckSeaToBeRemoved()
     {

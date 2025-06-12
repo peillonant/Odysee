@@ -511,7 +511,7 @@
 "Library/PackageCache/com.unity.test-framework@f6ed7fd5ec8f/UnityEngine.TestRunner/Utils/Vector4EqualityComparer.cs"
 -langversion:9.0
 /deterministic
-/optimize+
+/optimize-
 /debug:portable
 /nologo
 /RuntimeMetadataVersion:v4.0.30319

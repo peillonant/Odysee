@@ -24,9 +24,14 @@ public class Oboles : Items
         if (i_NbCoinCollected == 10)
         {
             // We collect all the oboles, so we increase the score by 9 (the last coin already increase the score by 1)
-            GameInfo.instance.IncreaseCoin(9);
+            GameInfo.instance.IncreaseCoin(10);
+            GameInfo.instance.IncreaseScore(10);
 
             DestroyIt();
+        }
+        else
+        {
+            GameInfo.instance.IncreaseScore(1);
         }
     }
 }

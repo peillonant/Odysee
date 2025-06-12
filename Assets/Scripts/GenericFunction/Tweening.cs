@@ -18,12 +18,24 @@ public static class Tweening
         }
     }
 
-    public static Color LerpColor(Color start, Color target, float f_Timer, float f_Delay)
+    public static float InOutBack(float t)
     {
-        Color result = new();
-        result.r = Mathf.Lerp(start.r, target.r, f_Delay - f_Timer);
-        result.g = Mathf.Lerp(start.g, target.g, f_Delay - f_Timer);
-        result.b = Mathf.Lerp(start.b, target.b, f_Delay - f_Timer);
-        return result;
+        if (t < 0.5f)
+        {
+            float a = 2 * t;
+            return (a * a * a - a * Mathf.Sin(a * Mathf.PI)) / 2;
+        }
+        else
+        {
+            float a = -2 * t + 2;
+            return 1 - (a * a * a - a * Mathf.Sin(a * Mathf.PI)) / 2;
+        }
+    }
+    
+    public static float InOutQuad(float t)
+    {
+            return (t < 0.5f)
+                ? (2 * t * t)
+                : (1 - Mathf.Pow(-2 * t + 2, 2) / 2);
     }
 }

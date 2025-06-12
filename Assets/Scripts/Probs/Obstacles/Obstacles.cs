@@ -49,10 +49,16 @@ public abstract class Obstacles : MonoBehaviour
             b_CanBeRemove = true;
         }
     }
-    
-    protected virtual void AttackShip() {}
+
+    protected virtual void AttackShip() { }
 
     protected abstract void RemoveObstacle();
-    protected abstract void ResetObstacle();
+    public virtual void ResetObstacle()
+    {
+        gameObject.SetActive(false);
+        gameObject.transform.SetParent(GameObject.Find("NotUsed/_Monsters").transform);
+        this.transform.localPosition = Vector3.zero;
+        b_CanBeRemove = false;
+    }
 
 }

@@ -10,7 +10,6 @@ public class CannonController : MonoBehaviour
 
     private bool b_OnCD;
     private float f_TimerCD = 0;
-    private float f_DelayBeforeShoot = 2f;
 
     void Update()
     {
@@ -35,13 +34,13 @@ public class CannonController : MonoBehaviour
     // Method that check the Cannon CD
     private bool CheckCDCannon()
     {
-        if (b_OnCD && f_TimerCD > f_DelayBeforeShoot)
+        if (b_OnCD && f_TimerCD > GameConstante.F_CANNONCOLDDOWN)
         {
             f_TimerCD = 0;
             b_OnCD = false;
             return true;
         }
-        else if (b_OnCD && f_TimerCD < f_DelayBeforeShoot)
+        else if (b_OnCD && f_TimerCD < GameConstante.F_CANNONCOLDDOWN)
         {
             return false;
         }
@@ -58,8 +57,19 @@ public class CannonController : MonoBehaviour
 
         Instantiate(go_CannonBallPrefab, v3_CannonPosition, Quaternion.identity, GameObject.Find("CannonBalls").transform);
 
-        GameInfo.instance.DescreaseAmmo();
+        if (GameInfo.instance.TutorielHasBeenSeen())       // Allow the player to trigger the Cannon without losing Ammo
+        {
+            GameInfo.instance.DescreaseAmmo();
+            //SoundManager.instance.PlaySound(SoundType.ACTION, 0, 0.5f);
+        }
 
         CannonTrigger.Invoke();
+    
+
+        if (GameInfo.instance.GetCurrentRegion().typeRegion == TypeRegion.STYX)
+        {
+            GameObject.Find("Boss").GetComponent<BossManager>().IncreaseNoise(1);
+        }
+
     }
 }

@@ -37,7 +37,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause() && GameInfo.instance.TutorielHasBeenSeen())
         {
             // PlayerMovement Method
             UpdatePlayerMovement();
@@ -121,6 +121,8 @@ public class ShipController : MonoBehaviour
             f_newSailRotation = GameConstante.I_MAXANGLEWIND;
 
         go_Sail.transform.rotation = Quaternion.Euler(0, f_newSailRotation, 0);
+
+        GameInfo.instance.SetSailAngle(f_newSailRotation);
     }
     #endregion
 
@@ -133,6 +135,8 @@ public class ShipController : MonoBehaviour
         float f_SailAngle = (go_Sail.transform.rotation.eulerAngles.y > 180) ? go_Sail.transform.rotation.eulerAngles.y - 360 : go_Sail.transform.rotation.eulerAngles.y;
 
         b_SailCorrectAngle = f_SailAngle >= GameInfo.instance.GetWindAngle() - GameConstante.I_GAPANGLE && f_SailAngle <= GameInfo.instance.GetWindAngle() + GameConstante.I_GAPANGLE;
+
+        GameInfo.instance.SetOnWind(b_SailCorrectAngle);
 
         // Then, if the bool is true we increase the speed of the boat by one
         if (b_SailCorrectAngle)
@@ -220,14 +224,14 @@ public class ShipController : MonoBehaviour
     }
 
     // Method triggered by the ColliderController when the ship has been touched by the JellyFish
-    public void HasBeenTouched_JellyFish()
+    public void HasBeenTouched_SlowDown()
     {
         b_HasBeenTouched = true;
-        f_targetSpeed = GameConstante.F_MINSPEEDTOUCHED;
+        f_targetSpeed = (f_currentSpeed / 3 < GameConstante.F_MINSPEEDTOUCHED) ? GameConstante.F_MINSPEEDTOUCHED : (int)Mathf.Ceil(f_currentSpeed / 3);
     }
 
     // Method triggered by the Mermaid
-    public void TriggerAttraction_Mermaid(float f_PositionX)
+    public void TriggerAttraction_Attraction(float f_PositionX)
     {
         v3_targetPosition.x = f_PositionX;
         b_IsAttracted = true;

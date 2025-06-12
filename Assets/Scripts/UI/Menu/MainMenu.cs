@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
             int i_ObolesScoreDisplay = (int)Mathf.Ceil(Tweening.Lerp(ref f_Timer, f_Delay, i_NbObolesStart, i_NbObolesTarget));
 
             // Update the NbOboles text
-            go_TextOboles.GetComponent<TextMeshProUGUI>().SetText("Total Oboles\n" + i_ObolesScoreDisplay);
+            go_TextOboles.GetComponentInChildren<TextMeshProUGUI>().SetText(i_ObolesScoreDisplay.ToString());
 
             if (i_ObolesScoreDisplay == i_NbObolesTarget)
                 b_ObolesToAdd = false;
@@ -32,12 +32,12 @@ public class MainMenu : MonoBehaviour
     private void UpdateMainMenu()
     {
 
-        i_NbObolesStart = DataLoad_Menu.instance.GetNbObolesPreviously();
-        i_NbObolesTarget = DataLoad_Menu.instance.GetNbObolesTotal();
+        i_NbObolesStart = DataPersistence.instance.GetNbObolesPreviously();
+        i_NbObolesTarget = DataPersistence.instance.GetNbObolesTotal();
 
         b_ObolesToAdd = true;
 
         // Update the NbOboles text
-        go_TextOboles.GetComponent<TextMeshProUGUI>().SetText("Total Oboles\n" + i_NbObolesStart);
+        go_TextOboles.GetComponentInChildren<TextMeshProUGUI>().SetText(i_NbObolesStart.ToString());
     }
 }

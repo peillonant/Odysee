@@ -17,8 +17,8 @@ MonoBehaviour:
   laneColor: {r: 0.09019608, g: 0.75686276, b: 0.68235296, a: 1}
   cameraColor: {r: 0.19215687, g: 0.6627451, b: 0.5803922, a: 1}
   obstaclesPrefab:
-  - {fileID: 870059283490619918, guid: 3e816a3f977823141b6e21aa9f36f817, type: 3}
-  - {fileID: 5895710099194522064, guid: 2482bbf59753cee48af00cd9a3498573, type: 3}
+  - {fileID: 3012107868399794817, guid: 06520f45dd0ac7c4ca8d66231a9f067d, type: 3}
+  - {fileID: 7736750362119751770, guid: 5efcdaff53b0bcb4f9560ed31850dad7, type: 3}
   monsterPrefab:
   - {fileID: 505232494197681433, guid: 22f5c58f11d50d24eb1c7ba8fde514f8, type: 3}
   - {fileID: 8644645021223442328, guid: 39bb89ed1a526f0459e9ad261b3c574d, type: 3}

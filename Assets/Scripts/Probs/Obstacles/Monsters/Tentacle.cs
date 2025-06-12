@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class Tentacle : Obstacles
 {
-    Material objectMaterial;
-
-    void Start()
-    {
-        objectMaterial = GetComponent<Renderer>().material;
-    }
 
     // Method to trigger the remove when the tentacle is bellow the sea
     public void CanBeRemoved() => b_CanBeRemove = true;
@@ -27,15 +21,13 @@ public class Tentacle : Obstacles
     {
         var newAlpha = Tweening.Lerp(ref f_TimerToRemove, f_DelayToRemove, 1, 0);
 
-        objectMaterial.color = new Color(objectMaterial.color.r, objectMaterial.color.g, objectMaterial.color.b, newAlpha);
-
         if (f_TimerToRemove > f_DelayToRemove)
         {
             ResetObstacle();
         }
     }
 
-    protected override void ResetObstacle()
+    public override void ResetObstacle()
     {
         Destroy(gameObject);
     }

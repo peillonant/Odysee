@@ -23,4 +23,4 @@ MonoBehaviour:
   - {fileID: 505232494197681433, guid: 22f5c58f11d50d24eb1c7ba8fde514f8, type: 3}
   - {fileID: 8644645021223442328, guid: 39bb89ed1a526f0459e9ad261b3c574d, type: 3}
   bossPrefab: {fileID: 7748605612156324532, guid: 6f0aa5ca6bf370f46b3529a9d82f41a1, type: 3}
-  rewardMaterial: {fileID: 2100000, guid: ce757c5f36d77fb41847631ce6c5a143, type: 2}
+  rewardMaterial: {fileID: 2100000, guid: accbc51ec4156174d9a342d723332be7, type: 2}

@@ -18,20 +18,24 @@ public class WindManager : MonoBehaviour
     private float f_LerpValueStart = 0;
     private float f_TargetWindAngle = 0;
 
+    private bool b_IsOnTheAngle = false;
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
+        if (!GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause() && GameInfo.instance.TutorielHasBeenSeen())
         {
             // Check if the delay to change the Wind need to be changed
             UpdateDelayToChangeWind();
 
             // Then, with the delay computed, do we have to update the angle of the wind
-            CheckTimer();
+            if (b_IsOnTheAngle)
+                CheckTimer();
 
             // Change the display of the wind (rotation angle and the pennant)
-            UpdateAngleWind();
+            if (!b_IsOnTheAngle)
+                UpdateAngleWind();
 
             // Add on the scene Wind effect to add more interaction
             DisplayWindEffect();
@@ -94,6 +98,7 @@ public class WindManager : MonoBehaviour
             }
         }
 
+        b_IsOnTheAngle = false;
         f_TargetWindAngle = f_newAngle;
         f_LerpValueStart = f_CurrentWindAngle;
     }
@@ -111,6 +116,10 @@ public class WindManager : MonoBehaviour
 
             // Third, we send the information to the GameInfo to give access to this information everywhere else on the code
             GameInfo.instance.SetWindAngle(f_CurrentWindAngle);
+        }
+        else
+        {
+            b_IsOnTheAngle = true;
         }
     }
 

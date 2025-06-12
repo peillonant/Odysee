@@ -41,7 +41,7 @@ public class Egee_Log : Obstacles
             ResetObstacle();
     }
 
-    protected override void ResetObstacle()
+    public override void ResetObstacle()
     {
         gameObject.SetActive(false);
         gameObject.transform.SetParent(GameObject.Find("NotUsed/_Obstacles").transform);

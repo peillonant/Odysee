@@ -8,7 +8,10 @@ public class CannonBall : MonoBehaviour
 
     void Start()
     {
-        f_Speed = GameInfo.instance.GetCurrentSpeed() * 2;
+        if (!GameInfo.instance.TutorielHasBeenSeen())
+            f_Speed = 20;
+        else
+            f_Speed = GameInfo.instance.GetCurrentSpeed() * 2;
     }
 
     // Update is called once per frame

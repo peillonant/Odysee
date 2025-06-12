@@ -18,7 +18,7 @@ public class MonsterManager : MonoBehaviour
     {
         int i_RngCreateMonster = Random.Range(0, 20);
 
-        // If the random is below the threshold, we do not create the Monster
+        // If the random is above the threshold, we do not create the Monster
         if (i_RngCreateMonster > i_ThresholdToTriggerMonster) return;
 
         // We check if the Sea prefab has an Obstacle Zone to add Monster on it.
@@ -46,7 +46,7 @@ public class MonsterManager : MonoBehaviour
         if (obstacleZone.GetChild(0).GetComponent<Obstacles>().GetTypeObstaclesSize() == TypeObstaclesSize.SHORT)
         {
             // We are now retrieve the position of the obstacle to avoid putting the monster on it
-            float f_positionObstacle = obstacleZone.GetChild(0).position.x;
+            float f_positionObstacle = obstacleZone.GetChild(0).localPosition.x;
 
             int i_indexPosition = Random.Range(0, 2);
 
@@ -85,9 +85,7 @@ public class MonsterManager : MonoBehaviour
 
                     if (go_ToRemove.CompareTag("Monster"))
                     {
-                        go_ToRemove.SetActive(false);
-                        go_ToRemove.transform.position = new(0, go_ToRemove.transform.position.y, 0);
-                        go_ToRemove.transform.SetParent(go_MonsterNotUsed.transform);
+                        go_ToRemove.GetComponent<Obstacles>().ResetObstacle();
                     }
                 }
             }

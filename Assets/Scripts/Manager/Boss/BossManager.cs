@@ -9,42 +9,59 @@ public class BossManager : MonoBehaviour
 
     float f_CurrentTimer = 0;
     float f_DelayTimer = 2f;
-    bool b_PreFightPerformed = false;
+    
     bool b_EndRegionFightPerformed = false;
     float f_DistancePreFight = 0;
 
     // Variable linked to Scylla (Egee boss)
     float f_SpeedThreshold = 2;
 
+    // Variable linked to Charon (Styx)
+    float f_MaxNoise = 20;
+    float f_NoiseThreshold = 20;
+    float f_CurrentNoise = 0;
+    float f_TimerNoiseDecrease = 0;
+    float f_DelayNoise = 2;
+    float f_ReductionSpeed = 1;
+
+    // Variable linked to Artemis (Arcadia)
+    float f_AngerMax = 20;
+    float f_AngerThreshold = 20;
+    float f_CurrentAnger = 0;
+    float f_TimerAngerDecrease = 0;
+    float f_DelayAnger = 2;
+    float f_ReductionAngerSpeed = 1;
+
     // Method called when we change the region to reset the BossManager
-    public void ResetPrefightPerformed()
+    public void ResetBossManager()
     {
-        b_PreFightPerformed = false;
+        GameInfo.instance.SetPreFightPerformed(false);
         b_EndRegionFightPerformed = false;
         f_DistancePreFight = 0;
     }
 
     void Update()
     {
-        if (!GameInfo.instance.IsBossFight() && !GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause())
+        if (!GameInfo.instance.IsBossFight() && !GameInfo.instance.IsGameLost() && !GameInfo.instance.IsGameOnPause() && GameInfo.instance.TutorielHasBeenSeen())
         {
-            if (GameInfo.instance.GetDistance() < 800 && !b_PreFightPerformed)
+            if (GameInfo.instance.GetDistance() < 800 && !GameInfo.instance.GetPreFightPerformed())
             {
                 switch (GameInfo.instance.GetCurrentRegion().typeRegion)
                 {
                     case TypeRegion.EGEE:
                         CheckBossEgee();
                         break;
+                    case TypeRegion.STYX:
+                        CheckBossStyx();
+                        break;
+                    case TypeRegion.ARCADIA:
+                        CheckBossArcadia();
+                        break;
                 }
             }
             else if (GameInfo.instance.GetDistance() > 800 && GameInfo.instance.GetDistance() - f_DistancePreFight > 150 && !b_EndRegionFightPerformed)
             {
-                switch (GameInfo.instance.GetCurrentRegion().typeRegion)
-                {
-                    case TypeRegion.EGEE:
-                        TriggerBoss(false, GameInfo.instance.GetCurrentRegion().bossPrefab);
-                        break;
-                }
+                TriggerBoss(false, GameInfo.instance.GetCurrentRegion().bossPrefab);
             }
         }
     }
@@ -91,9 +108,46 @@ public class BossManager : MonoBehaviour
         else
             f_SpeedThreshold = 13;
 
+        GameInfo.instance.SetThresholdBoss(f_SpeedThreshold);
+
         // Find another way to increase the difficulty of Scylla f_SpeedThreshold *= f_ThresholdMultiplier;
     }
     #endregion
+
+    #region Region Styx
+    private void CheckBossStyx()
+    {
+        if (f_CurrentNoise > 0)
+        {
+
+        }
+    }
+
+    // Method called by all element linked to the Styx region (Obstacles, Cannon, Monster) 
+    // TO DO, put the which value increase regarding the Obstacles triggered
+    public void IncreaseNoise(int i_AddNoise)
+    {
+        f_CurrentNoise = (f_CurrentNoise + i_AddNoise > f_MaxNoise) ? f_MaxNoise : f_CurrentNoise + i_AddNoise;
+    }
+
+    #endregion
+
+    #region Region Arcadia
+    private void CheckBossArcadia()
+    {
+        if (f_CurrentNoise > 0)
+        {
+
+        }
+    }
+
+    public void IncreaseAnger(int i_AddAnger)
+    {
+        f_CurrentAnger = (f_CurrentAnger + i_AddAnger > f_AngerMax) ? f_AngerMax : f_CurrentAnger + i_AddAnger;
+    }
+    #endregion
+
+
 
     // Method to trigger the Boss of the Region. On this method, we will know if the boss has been already created or not
     private void TriggerBoss(bool b_IsPreFight, GameObject go_BossPrefab)
@@ -114,7 +168,7 @@ public class BossManager : MonoBehaviour
 
         GameObject.Find("Sea").GetComponent<SeaManager>().RemoveObstaclesAndMonsters();
 
-        b_PreFightPerformed = b_IsPreFight;
+        GameInfo.instance.SetPreFightPerformed(b_IsPreFight);
         b_EndRegionFightPerformed = !b_IsPreFight;
     }
 

@@ -4,74 +4,82 @@ using UnityEngine;
 public class DisplayManager : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
+    private Material materialSea;
+    private Material materialLane;
+    
 
-    private float f_TimerSea = 0;
-    private float f_TimerLane = 0;
-    private float f_TimerCamera = 0;
-    private float f_DelayUpdate = 10;
+    private float f_TimerUpdate = 0;
+    private float f_DelayUpdate = 5;
+
+    private bool b_ColorToChange = false;
+
+    void Start()
+    {
+        materialSea = transform.GetChild(0).GetChild(0).GetComponent<Renderer>().sharedMaterial;
+        materialLane = transform.GetChild(0).GetChild(1).GetComponent<Renderer>().sharedMaterial;
+
+        ResetColor();
+    }
+
+    void ResetColor()
+    {
+        materialSea.color = GameInfo.instance.GetCurrentRegion().seaColor;
+        materialLane.color = GameInfo.instance.GetCurrentRegion().laneColor;
+        mainCamera.backgroundColor = GameInfo.instance.GetCurrentRegion().cameraColor;
+        RenderSettings.fogColor = GameInfo.instance.GetCurrentRegion().cameraColor;
+    }
 
     void Update()
     {
-        // CheckColorSea();
+        if (b_ColorToChange)
+        {
+            f_TimerUpdate += Time.deltaTime;
 
-        // CheckColorCamera();
+            CheckColorSea();
 
-        // CheckColorFog();
+            CheckColorCamera();
+
+            CheckColorFog();
+
+
+            if (f_TimerUpdate > f_DelayUpdate)
+                b_ColorToChange = false;
+        }
     }
 
-    public void ResetTimer()
+    public void TriggerChangeDisplay()
     {
-        f_TimerSea = 0;
-        f_TimerLane = 0;
-        f_TimerCamera = 0;
+        f_TimerUpdate = 0;
+        b_ColorToChange = true;
     }
 
     private void CheckColorSea()
     {
-        GameObject sea = this.transform.GetChild(0).GetChild(0).gameObject;
-        GameObject lane = this.transform.GetChild(0).GetChild(1).gameObject;
-        
-        f_TimerSea += Time.deltaTime;
-
-        if (sea.GetComponent<Renderer>().sharedMaterial.color != GameInfo.instance.GetCurrentRegion().seaColor)
+        if (materialSea.color != GameInfo.instance.GetCurrentRegion().seaColor)
         {
-            Debug.Log("Not same color => " + f_TimerSea + " // " + sea.GetComponent<Renderer>().sharedMaterial.color + " vs " + GameInfo.instance.GetCurrentRegion().seaColor);
-
-            if (f_TimerSea < f_DelayUpdate)
-            {
-                sea.GetComponent<Renderer>().sharedMaterial.color = Tweening.LerpColor(sea.GetComponent<Renderer>().sharedMaterial.color, GameInfo.instance.GetCurrentRegion().seaColor, f_TimerSea, f_DelayUpdate);
-            }
-            else
-            {
-                sea.GetComponent<Renderer>().sharedMaterial.color = GameInfo.instance.GetCurrentRegion().seaColor;
-            }
-        }
-        else
-        {
-            Debug.Log("Did not worked");
+            materialSea.color = Color.Lerp(GameInfo.instance.GetPreviousRegion().seaColor, GameInfo.instance.GetCurrentRegion().seaColor, f_TimerUpdate / f_DelayUpdate);
         }
 
-        if (lane.GetComponent<Renderer>().sharedMaterial.color != GameInfo.instance.GetCurrentRegion().laneColor)
+        if (materialLane.color != GameInfo.instance.GetCurrentRegion().laneColor)
         {
-            if (f_TimerSea < f_DelayUpdate)
-            {
-                lane.GetComponent<Renderer>().sharedMaterial.color = Tweening.LerpColor(lane.GetComponent<Renderer>().sharedMaterial.color, GameInfo.instance.GetCurrentRegion().laneColor, f_TimerSea, f_DelayUpdate);
-            }
-            else
-            {
-                lane.GetComponent<Renderer>().sharedMaterial.color = GameInfo.instance.GetCurrentRegion().laneColor;
-            }
+            materialLane.color = Color.Lerp(GameInfo.instance.GetPreviousRegion().laneColor, GameInfo.instance.GetCurrentRegion().laneColor, f_TimerUpdate / f_DelayUpdate);
         }
     }
 
     private void CheckColorCamera()
     {
-
+        if (mainCamera.backgroundColor != GameInfo.instance.GetCurrentRegion().cameraColor)
+        {
+            mainCamera.backgroundColor = Color.Lerp(GameInfo.instance.GetPreviousRegion().cameraColor, GameInfo.instance.GetCurrentRegion().cameraColor, f_TimerUpdate / f_DelayUpdate);
+        }
     }
 
     private void CheckColorFog()
     {
-
+        if (RenderSettings.fogColor != GameInfo.instance.GetCurrentRegion().cameraColor)
+        {
+            RenderSettings.fogColor = Color.Lerp(GameInfo.instance.GetPreviousRegion().cameraColor, GameInfo.instance.GetCurrentRegion().cameraColor, f_TimerUpdate / f_DelayUpdate);
+        }
     }
 
 }

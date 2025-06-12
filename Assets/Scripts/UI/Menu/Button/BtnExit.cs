@@ -4,7 +4,7 @@ public class BtnExit : MonoBehaviour
 {
     public void OnClickExit()
     {
-        DataLoad_Menu.instance.WriteDataAllGame();
+        DataPersistence.instance.WriteDataAllGame();
         Application.Quit();
     }
 }

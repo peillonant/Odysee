@@ -7,8 +7,6 @@ public class BtnPlay : MonoBehaviour
 
     public void OnClickPlay()
     {
-        DataLoad_Menu.instance.WriteDataAllGame();
-        DataLoad_Menu.instance.WriteResetDataLastGame();
         imgTransition.GetComponent<FadingTransitionMenu>().TriggerTransition( () => SceneManager.LoadScene("SceneGame"));
     }
 }

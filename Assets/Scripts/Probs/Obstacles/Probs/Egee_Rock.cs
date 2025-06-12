@@ -21,7 +21,7 @@ public class Egee_Rock : Obstacles
         }
     }
 
-    protected override void ResetObstacle()
+    public override void ResetObstacle()
     {
         gameObject.SetActive(false);
         gameObject.transform.SetParent(GameObject.Find("NotUsed/_Obstacles").transform);

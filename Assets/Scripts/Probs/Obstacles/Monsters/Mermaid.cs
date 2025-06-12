@@ -2,17 +2,24 @@ using UnityEngine;
 
 public class Mermaid : Obstacles
 {
-    Material objectMaterial;
     GameObject go_Ship;
+    [SerializeField] ParticleSystem particleSystem;
 
     float f_DistanceBeforePower = 500;
     float f_TimerPower = 0;
     float f_ColdDownPower = 3f;
 
+    // Variable linked to the animation
+    float f_TimerAnime = 0;
+    float f_DelayAnime = 1.5f;
+    float f_BottomPos = -2.5f;
+    float f_TopPos = 2.5f;
+    float f_DelayToSink = 1.5f;
+
+
     void Start()
     {
         go_Ship = GameObject.Find("Ship");
-        objectMaterial = GetComponent<Renderer>().material;
     }
 
     protected override void AttackShip()
@@ -29,34 +36,26 @@ public class Mermaid : Obstacles
             {
                 f_TimerPower = 0;
 
+                particleSystem.Play();
+
                 if (go_Ship.transform.position.x != transform.position.x)
-                {
-                    go_Ship.GetComponent<ShipController>().TriggerAttraction_Mermaid(transform.position.x);
-                }
+                    go_Ship.GetComponent<ShipController>().TriggerAttraction_Attraction(transform.position.x);
             }
         }
+
+        // Animation of the Mermaid
+        this.transform.localPosition = GlobalAnimation.AnimationFloating(ref f_TimerAnime, f_DelayAnime, f_BottomPos , f_TopPos, this.transform.localPosition);
     }
 
     protected override void RemoveObstacle()
     {
-        var newAlpha = Tweening.Lerp(ref f_TimerToRemove, f_DelayToRemove, 1, 0);
-
-        objectMaterial.color = new Color(objectMaterial.color.r, objectMaterial.color.g, objectMaterial.color.b, newAlpha);
+        Vector3 newPosition = this.transform.localPosition;
+        newPosition.y = Tweening.Lerp(ref f_TimerToRemove, f_DelayToSink, 0, -25);
+        this.transform.localPosition = newPosition;
 
         if (f_TimerToRemove > f_DelayToRemove)
-        {
             ResetObstacle();
-        }
     }
-
-    protected override void ResetObstacle()
-    {
-        gameObject.SetActive(false);
-        gameObject.transform.SetParent(GameObject.Find("NotUsed/_Monsters").transform);
-        objectMaterial.color = new Color(objectMaterial.color.r, objectMaterial.color.g, objectMaterial.color.b, 1);
-        b_CanBeRemove = false;
-    }
-
 
     // Check the collision with the Ship
     public override void OnTriggerEnter(Collider other)
@@ -64,6 +63,7 @@ public class Mermaid : Obstacles
         if (other.CompareTag("Bullet"))
         {
             b_CanBeRemove = true;
+            GameInfo.instance.IncreaseScore(15);
         }
         else if (other.CompareTag("Ship"))
         {

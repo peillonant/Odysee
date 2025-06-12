@@ -10,6 +10,7 @@ Library: C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\
 --linker-options=PdbAltPath="Odysee_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\Burst
+--debug=Full
 --key-folder=D:/Program Files/Unity/Hub/Editor/6000.1.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Library\Burst
 --output=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -119,6 +120,7 @@ Library: C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\
 --linker-options=PdbAltPath="Odysee_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\Burst
+--debug=Full
 --key-folder=D:/Program Files/Unity/Hub/Editor/6000.1.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Library\Burst
 --output=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -230,6 +232,7 @@ Library: C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\
 --linker-options=PdbAltPath="Odysee_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\Burst
+--debug=Full
 --key-folder=D:/Program Files/Unity/Hub/Editor/6000.1.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Library\Burst
 --output=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -250,6 +253,7 @@ Library: C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\
 --linker-options=PdbAltPath="Odysee_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\Burst
+--debug=Full
 --key-folder=D:/Program Files/Unity/Hub/Editor/6000.1.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\Peillon\Documents\GitHub\Odysee\Library\Burst
 --output=C:\Users\Peillon\Documents\GitHub\Odysee\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated

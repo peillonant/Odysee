@@ -10,18 +10,18 @@ public class LeaderBoardMenu : MonoBehaviour
 
     private void UpdateLeaderBoardMenu()
     {
-        GameObject go_MenuTable = this.transform.GetChild(1).gameObject;
+        GameObject go_MenuTable = this.transform.GetChild(2).gameObject;
 
-        int i_NumberOfTopScore = DataLoad_Menu.instance.GetNumberTopScore();
+        int i_NumberOfTopScore = DataPersistence.instance.GetNumberTopScore();
 
         // Loop to update the list of 10 top score
         for (int i = 0; i < i_NumberOfTopScore; i++)
         {
-            int i_tmp = i + 1;
-            go_MenuTable.transform.GetChild(i).GetComponent<TextMeshProUGUI>().SetText("Top " + i_tmp + ": " + DataLoad_Menu.instance.GetTopScoreX(i));
+            string textScore = "Top " + (i + 1) + ": " + DataPersistence.instance.GetTopScoreX(i).score + " ( " + DataPersistence.instance.GetTopScoreX(i).distanceCovered + " )";
+            go_MenuTable.transform.GetChild(i).GetComponent<TextMeshProUGUI>().SetText(textScore);
         }
 
         // Update the NbOboles
-        this.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("Total Oboles\n" + DataLoad_Menu.instance.GetNbObolesTotal());
+        this.transform.GetChild(3).GetComponent<TextMeshProUGUI>().SetText(DataPersistence.instance.GetNbObolesTotal().ToString());
     }
 }
