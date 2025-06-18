@@ -1,17 +1,19 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class ScyllaTentacles : MonoBehaviour
 {
-    private float f_RotationSpeed = 75;
+    private bool TriggerAttack = false;
+
 
     public void UpdateTentacle()
     {
-        transform.Rotate(f_RotationSpeed * Time.deltaTime * Vector3.left);
-
-        if (transform.rotation.eulerAngles.x < 200)
+        if (!TriggerAttack && transform.childCount > 0)
         {
-            ResetTentactle();
+            GetComponentInChildren<Animator>().SetTrigger("TriggerAttack");
+            TriggerAttack = true;
+            StartCoroutine(ResetTentactleTimer());
         }
     }
 
@@ -22,16 +24,16 @@ public class ScyllaTentacles : MonoBehaviour
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).GetComponent<Tentacle>().CanBeRemoved();
+                transform.GetChild(i).GetComponentInChildren<Tentacle>().CanBeRemoved();
             }
         }
 
-        StartCoroutine(ResetRotation());
+        TriggerAttack = false;
     }
 
-    private IEnumerator ResetRotation()
+    private IEnumerator ResetTentactleTimer()
     {
-        yield return new WaitForSeconds(1);
-        transform.rotation = new Quaternion(0, 0, 0, 0);
+        yield return new WaitForSeconds(2);
+        ResetTentactle();
     }
 }

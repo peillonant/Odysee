@@ -117,7 +117,8 @@ public class Boss : MonoBehaviour
 
         for (int i = 1; i < i_NbAttack; i++)
         {
-            int indexAttack = Random.Range(0, 2);
+            //int indexAttack = Random.Range(0, 2);
+            int indexAttack = 1;
 
             if (indexAttack == 0)
                 queueAttack.Enqueue(FirstAttack);

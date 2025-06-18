@@ -14,7 +14,7 @@ public class SpeedAnime : MonoBehaviour
 
     void Update()
     {
-        UpdateFOVCamera();
+        //UpdateFOVCamera();
 
         UpdateSail();
     }

@@ -4,7 +4,10 @@ public class Tentacle : Obstacles
 {
 
     // Method to trigger the remove when the tentacle is bellow the sea
-    public void CanBeRemoved() => b_CanBeRemove = true;
+    public void CanBeRemoved()
+    {
+        b_CanBeRemove = true;
+    }
 
     // Check the collision with the Ship
     public override void OnTriggerEnter(Collider other)
@@ -19,7 +22,7 @@ public class Tentacle : Obstacles
 
     protected override void RemoveObstacle()
     {
-        var newAlpha = Tweening.Lerp(ref f_TimerToRemove, f_DelayToRemove, 1, 0);
+        f_TimerToRemove += Time.deltaTime;
 
         if (f_TimerToRemove > f_DelayToRemove)
         {
@@ -30,5 +33,6 @@ public class Tentacle : Obstacles
     public override void ResetObstacle()
     {
         Destroy(gameObject);
+        Destroy(gameObject.transform.parent.gameObject);
     }
 }
