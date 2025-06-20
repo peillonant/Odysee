@@ -16,21 +16,19 @@ public class BossManager : MonoBehaviour
     // Variable linked to Scylla (Egee boss)
     float f_SpeedThreshold = 2;
 
-    // Variable linked to Charon (Styx)
+    // Variable linked to Noise boss (Styx & Arcadia)
     float f_MaxNoise = 20;
-    float f_NoiseThreshold = 20;
+    float f_NoiseThreshold = 12;
     float f_CurrentNoise = 0;
     float f_TimerNoiseDecrease = 0;
-    float f_DelayNoise = 2;
+    float f_DelayNoise = 5;
     float f_ReductionSpeed = 1;
 
-    // Variable linked to Artemis (Arcadia)
-    float f_AngerMax = 20;
-    float f_AngerThreshold = 20;
-    float f_CurrentAnger = 0;
-    float f_TimerAngerDecrease = 0;
-    float f_DelayAnger = 2;
-    float f_ReductionAngerSpeed = 1;
+    //Encapsulation
+    public float GetMaxNoise() => f_MaxNoise;
+    public float GetNoiseThreshold() => f_NoiseThreshold;
+    public float GetCurrentNoise() => f_CurrentNoise; 
+
 
     // Method called when we change the region to reset the BossManager
     public void ResetBossManager()
@@ -38,6 +36,8 @@ public class BossManager : MonoBehaviour
         GameInfo.instance.SetPreFightPerformed(false);
         b_EndRegionFightPerformed = false;
         f_DistancePreFight = 0;
+        f_CurrentNoise = 0;
+        f_TimerNoiseDecrease = 0;
     }
 
     void Update()
@@ -52,16 +52,16 @@ public class BossManager : MonoBehaviour
                         CheckBossEgee();
                         break;
                     case TypeRegion.STYX:
-                        CheckBossStyx();
+                        CheckBossNoise();
                         break;
                     case TypeRegion.ARCADIA:
-                        CheckBossArcadia();
+                        CheckBossNoise();
                         break;
                 }
             }
             else if (GameInfo.instance.GetDistance() > 800 && GameInfo.instance.GetDistance() - f_DistancePreFight > 150 && !b_EndRegionFightPerformed)
             {
-                TriggerBoss(false, GameInfo.instance.GetCurrentRegion().bossPrefab);
+                TriggerBoss(false);
             }
         }
     }
@@ -77,7 +77,7 @@ public class BossManager : MonoBehaviour
 
             if (f_CurrentTimer >= f_DelayTimer)
             {
-                TriggerBoss(true, GameInfo.instance.GetCurrentRegion().bossPrefab);
+                TriggerBoss(true);
                 f_CurrentTimer = 0;
                 f_DistancePreFight = GameInfo.instance.GetDistance();
             }
@@ -114,44 +114,40 @@ public class BossManager : MonoBehaviour
     }
     #endregion
 
-    #region Region Styx
-    private void CheckBossStyx()
+    #region Region with Noise System (Styx & Arcadia)
+    private void CheckBossNoise()
     {
         if (f_CurrentNoise > 0)
         {
+            f_TimerNoiseDecrease += Time.deltaTime;
 
+            if (f_CurrentNoise >= f_NoiseThreshold)
+            {
+                TriggerBoss(true);
+                f_TimerNoiseDecrease = 0;
+                f_DistancePreFight = GameInfo.instance.GetDistance();
+            }
+            else if (f_TimerNoiseDecrease > f_DelayNoise)
+            {
+                f_CurrentNoise -= f_ReductionSpeed;
+                f_TimerNoiseDecrease = 0;
+            }
         }
     }
 
     // Method called by all element linked to the Styx region (Obstacles, Cannon, Monster) 
-    // TO DO, put the which value increase regarding the Obstacles triggered
     public void IncreaseNoise(int i_AddNoise)
     {
         f_CurrentNoise = (f_CurrentNoise + i_AddNoise > f_MaxNoise) ? f_MaxNoise : f_CurrentNoise + i_AddNoise;
-    }
-
-    #endregion
-
-    #region Region Arcadia
-    private void CheckBossArcadia()
-    {
-        if (f_CurrentNoise > 0)
-        {
-
-        }
-    }
-
-    public void IncreaseAnger(int i_AddAnger)
-    {
-        f_CurrentAnger = (f_CurrentAnger + i_AddAnger > f_AngerMax) ? f_AngerMax : f_CurrentAnger + i_AddAnger;
+        f_TimerNoiseDecrease = 0;
     }
     #endregion
-
-
 
     // Method to trigger the Boss of the Region. On this method, we will know if the boss has been already created or not
-    private void TriggerBoss(bool b_IsPreFight, GameObject go_BossPrefab)
+    private void TriggerBoss(bool b_IsPreFight)
     {
+        GameObject go_BossPrefab = GameInfo.instance.GetCurrentRegion().bossPrefab;
+
         // First we check if the boss has been already Used
         GameObject go_Boss = GeneralFunction.RetrieveObject(go_BossNotUsed, go_BossPrefab, this.transform);
 

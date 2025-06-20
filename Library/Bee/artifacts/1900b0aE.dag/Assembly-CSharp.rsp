@@ -464,6 +464,7 @@
 "Assets/Scripts/Probs/Items/Reward.cs"
 "Assets/Scripts/Probs/Obstacles/Monsters/Jellyfish.cs"
 "Assets/Scripts/Probs/Obstacles/Monsters/Mermaid.cs"
+"Assets/Scripts/Probs/Obstacles/Monsters/Mermaid_Arcadia.cs"
 "Assets/Scripts/Probs/Obstacles/Monsters/Spectre.cs"
 "Assets/Scripts/Probs/Obstacles/Monsters/SpiritHunter.cs"
 "Assets/Scripts/Probs/Obstacles/Monsters/Tentacle.cs"

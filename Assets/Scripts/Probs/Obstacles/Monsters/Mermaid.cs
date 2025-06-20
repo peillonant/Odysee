@@ -3,7 +3,7 @@ using UnityEngine;
 public class Mermaid : Obstacles
 {
     GameObject go_Ship;
-    [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] new ParticleSystem particleSystem;
 
     float f_DistanceBeforePower = 500;
     float f_TimerPower = 0;

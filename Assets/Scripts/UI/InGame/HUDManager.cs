@@ -58,7 +58,13 @@ public class HUDManager : MonoBehaviour
     private Color colorRed = new(0.8f, 0.1f, 0.15f);
 
     // Variable linked to Boss Jauge
-    [SerializeField] private GameObject go_EgeeJauge;
+    [SerializeField] private BossManager go_Boss;
+    [SerializeField] private GameObject go_BossJauge_Speed;
+    [SerializeField] private GameObject go_BossJauge_Noise;
+    private Color colorGreen_Noise = new(0.13f, 0.8f, 0.2f);
+    private Color colorOrange_Noise = new(0.82f, 0.5f, 0.12f);
+    private Color colorRed_Noise = new(0.44f, 0.13f, 0.13f);
+
 
     // Variable linked to the Tutorial
     [SerializeField] private GameObject go_Tutorial;
@@ -238,25 +244,57 @@ public class HUDManager : MonoBehaviour
         {
             if (!GameInfo.instance.GetPreFightPerformed())
             {
-                if (!go_EgeeJauge.activeSelf && !GameInfo.instance.IsBossFight())
-                    go_EgeeJauge.SetActive(true);
+                if (!go_BossJauge_Speed.activeSelf && !GameInfo.instance.IsBossFight())
+                    go_BossJauge_Speed.SetActive(true);
+
+                if (go_BossJauge_Noise.activeSelf)
+                    go_BossJauge_Speed.SetActive(false);
 
                 // First we increase the Speed Jauge
                 float f_ratioSpeed = GameInfo.instance.GetCurrentSpeed() / GameInfo.instance.GetSpeedMax();
                 Vector2 newSizeDelta = new Vector2(12.5f, 437.5f * f_ratioSpeed);
-                go_EgeeJauge.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = newSizeDelta;
+                go_BossJauge_Speed.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = newSizeDelta;
 
                 // Second, we increase the Threshold Jauge
                 float f_rationThreshold = GameInfo.instance.GetThresholdBoss() / GameInfo.instance.GetSpeedMax();
                 newSizeDelta.y = 437.5f * f_rationThreshold;
-                go_EgeeJauge.transform.GetChild(1).GetComponent<RectTransform>().sizeDelta = newSizeDelta;
+                go_BossJauge_Speed.transform.GetChild(1).GetComponent<RectTransform>().sizeDelta = newSizeDelta;
             }
-            else if (GameInfo.instance.IsBossFight())
-                go_EgeeJauge.SetActive(false);
             else
             {
-                if (go_EgeeJauge.activeSelf)
-                    go_EgeeJauge.SetActive(false);
+                if (go_BossJauge_Speed.activeSelf || GameInfo.instance.IsBossFight())
+                    go_BossJauge_Speed.SetActive(false);
+
+            }
+        }
+        else if (GameInfo.instance.GetCurrentRegion().typeRegion == TypeRegion.STYX || GameInfo.instance.GetCurrentRegion().typeRegion == TypeRegion.ARCADIA)
+        {
+            if (!GameInfo.instance.GetPreFightPerformed())
+            {
+                if (!go_BossJauge_Noise.activeSelf && !GameInfo.instance.IsBossFight())
+                    go_BossJauge_Noise.SetActive(true);
+
+                if (go_BossJauge_Speed.activeSelf)
+                    go_BossJauge_Speed.SetActive(false);
+
+                // First, we compute the size of the Jauge
+                float f_ratioNoise_Size = go_Boss.GetCurrentNoise() / go_Boss.GetMaxNoise();
+                Vector2 newSizeDelta = new Vector2(30f, 10 + (427.5f * f_ratioNoise_Size));
+                go_BossJauge_Noise.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = newSizeDelta;
+
+                // Now we change the color regarding the ratio
+                float f_ratioNoise_Color = go_Boss.GetCurrentNoise() / go_Boss.GetNoiseThreshold();
+                if (f_ratioNoise_Color < 0.5f)
+                    go_BossJauge_Noise.transform.GetChild(0).GetComponent<Image>().color = colorGreen_Noise;
+                else if (f_ratioNoise_Color < 0.75f)
+                    go_BossJauge_Noise.transform.GetChild(0).GetComponent<Image>().color = colorOrange_Noise;
+                else
+                    go_BossJauge_Noise.transform.GetChild(0).GetComponent<Image>().color = colorRed_Noise;
+            }
+            else
+            {
+                if (go_BossJauge_Noise.activeSelf || GameInfo.instance.IsBossFight())
+                    go_BossJauge_Noise.SetActive(false);
 
             }
         }

@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public class ScyllaTentacles : MonoBehaviour
@@ -11,7 +10,11 @@ public class ScyllaTentacles : MonoBehaviour
     {
         if (!TriggerAttack && transform.childCount > 0)
         {
-            GetComponentInChildren<Animator>().SetTrigger("TriggerAttack");
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).GetComponentInChildren<Animator>().SetTrigger("TriggerAttack");
+            }
+                
             TriggerAttack = true;
             StartCoroutine(ResetTentactleTimer());
         }

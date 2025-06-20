@@ -46,7 +46,7 @@ public class DistanceController : MonoBehaviour
     // Methode that increase the speedMax regarding the distance covered during the all run
     void IncreaseSpeedMax()
     {
-        if (GameInfo.instance.GetSpeedMax() < 50)
+        if (GameInfo.instance.GetSpeedMax() < GameConstante.I_SPEEDMAX)
         {
             if (GameInfo.instance.GetAllDistanceCovered() > f_StepDistanceToSpeed)
             {

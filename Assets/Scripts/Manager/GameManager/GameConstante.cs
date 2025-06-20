@@ -23,6 +23,7 @@ public class GameConstante : MonoBehaviour
     public const int I_GAPANGLE = 10;
     public const float F_MINSPEEDUNTOUCHED = 10;
     public const float F_MINSPEEDTOUCHED = 5;
+    public const int I_SPEEDMAX = 40;
 
     // Constant of the middle of the Lane on the Left and on the Right (Use for the Ship, obstacle, enemies and boss)
     public const int I_BORDERX = 35;

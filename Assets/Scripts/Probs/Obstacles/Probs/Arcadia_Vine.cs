@@ -78,7 +78,7 @@ public class Arcadia_Vine : Obstacles
         {
             b_CanBeRemove = true;
 
-            GameObject.Find("Boss").GetComponent<BossManager>().IncreaseAnger(4);
+            GameObject.Find("Boss").GetComponent<BossManager>().IncreaseNoise(4);
         }
 
         if (other.CompareTag("Ship"))
@@ -91,7 +91,7 @@ public class Arcadia_Vine : Obstacles
 
             b_CanBeRemove = true;
 
-            GameObject.Find("Boss").GetComponent<BossManager>().IncreaseAnger(2);
+            GameObject.Find("Boss").GetComponent<BossManager>().IncreaseNoise(2);
         }
     }
 
